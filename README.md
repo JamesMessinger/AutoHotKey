@@ -7,17 +7,90 @@ These are my customized scripts for [AutoHotKey](https://www.autohotkey.com/).  
 This script simply re-maps a few keyboard keys to behave the way I prefer.
 
 
-### [`advanced-window-snap.ahk`](advanced-window-snap.ahk)
-This script is based on [this script by Andrew Moore](https://gist.github.com/AWMooreCO/1ef708055a11862ca9dc), which extends Windows 10's built-in [window-snapping hotkeys](https://www.cnet.com/how-to/all-the-windows-10-keyboard-shortcuts-you-need-to-know/) to support additional window sizes and positions.
-
-
 ### [`restore-window-layout.ahk`](WindowLayout.ahk)
 This script allows you to save and restore window layouts for different monitor setups.  This is useful when undocking/re-docking a laptop to a docking station, or when connecting/disconnecting external monitors, projectors, etc.
 
 Hotkey | Behavior
--------|--------------------
-<kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>0</kbd> | Save the current window layout for the current monitor configuration.<br><br>Depending on how many monitors are connected, the window layout will be saved as `WindowLayout.1.txt`, `WindowLayout.2.txt`, etc.
+:------|:-------------------
+<kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>left</kbd> | Save the current window layout for the current monitor configuration.<br><br>Depending on how many monitors are connected, the window layout will be saved as `WindowLayout.1.txt`, `WindowLayout.2.txt`, etc.
 <kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>0</kbd> | Restore the window layout for the current monitor configuration.<br><br>The window layout file is deleted afterward. You can create a `WindowLayout.#.default.txt` file for each monitor configuration, which will be applied if there is no saved layout file.
+
+
+### [`advanced-window-snap.ahk`](advanced-window-snap.ahk)
+This script is based on [this script by Andrew Moore](https://gist.github.com/AWMooreCO/1ef708055a11862ca9dc), which extends Windows 10's built-in [window-snapping hotkeys](https://www.cnet.com/how-to/all-the-windows-10-keyboard-shortcuts-you-need-to-know/) to support additional window sizes and positions.
+
+##### Default Windows Hotkeys
+Hotkey | Behavior
+:------|:-------------------
+<kbd>Win</kbd>+<kbd>&larr;</kbd> | Snap to the left **half** of the screen
+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the right **half** of the screen
+<kbd>Win</kbd>+<kbd>&uarr;</kbd> | Maximize the window
+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Restore/minimize the window
+
+##### Advanced Hotkeys (horizontal)
+Hotkey | Behavior
+:------|:-------------------
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&larr;</kbd> | Snap to the left **third** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the right **third** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Snap to the middle **third** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&uarr;</kbd> | Snap to the middle **half** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&larr;</kbd> | Snap to the left **two-thirds** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the right **two-thirds** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Snap to the middle **two-thirds** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&uarr;</kbd> | Snap to the middle **two-thirds** of the screen
+
+##### Advanced Hotkeys (vertical)
+Hotkey | Behavior
+:------|:-------------------
+<kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>&uarr;</kbd> | Snap to the top **half** of the screen
+<kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Snap to the bottom **half** of the screen
+<kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>&larr;</kbd> | Snap to the middle **half** of the screen
+<kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the middle **half** of the screen
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&uarr;</kbd> | Snap to the top **third** of the screen
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Snap to the bottom **third** of the screen
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&larr;</kbd> | Snap to the middle **third** of the screen
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the middle **third** of the screen
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&uarr;</kbd> | Snap to the top **two-thirds** of the screen
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Snap to the bottom **two-thirds** of the screen
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&larr;</kbd> | Snap to the middle **two-thirds** of the screen
+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the middle **two-thirds** of the screen
+
+##### Advanced Hotkeys (centering)
+Hotkey | Behavior
+:------|:-------------------
+<kbd>Win</kbd>+<kbd>Enter</kbd> | Center the window on screen (big)
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Enter</kbd> | Center the window on screen (small)
+
+##### Advanced Hotkeys (using the number pad)
+Hotkey | Behavior
+:------|:-------------------
+<kbd>Win</kbd>+<kbd>Numpad 7</kbd> | Snap to the top-left **half** of the screen
+<kbd>Win</kbd>+<kbd>Numpad 8</kbd> | Snap to the top **half** of the screen
+<kbd>Win</kbd>+<kbd>Numpad 9</kbd> | Snap to the top-right **half** of the screen
+<kbd>Win</kbd>+<kbd>Numpad 4</kbd> | Snap to the left **half** of the screen
+<kbd>Win</kbd>+<kbd>Numpad 5</kbd> | Snap to the middle **half** of the screen
+<kbd>Win</kbd>+<kbd>Numpad 6</kbd> | Snap to the right **half** of the screen
+<kbd>Win</kbd>+<kbd>Numpad 1</kbd> | Snap to the bottom-left **half** of the screen
+<kbd>Win</kbd>+<kbd>Numpad 2</kbd> | Snap to the bottom **half** of the screen
+<kbd>Win</kbd>+<kbd>Numpad 3</kbd> | Snap to the bottom-right **half** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 7</kbd> | Snap to the top-left **third** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 8</kbd> | Snap to the top **third** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 9</kbd> | Snap to the top-right **third** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 4</kbd> | Snap to the left **third** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 5</kbd> | Snap to the middle **third** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 6</kbd> | Snap to the right **third** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 1</kbd> | Snap to the bottom-left **third** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 2</kbd> | Snap to the bottom **third** of the screen
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 3</kbd> | Snap to the bottom-right **third** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 7</kbd> | Snap to the top-left **two-thirds** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 8</kbd> | Snap to the top **two-thirds** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 9</kbd> | Snap to the top-right **two-thirds** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 4</kbd> | Snap to the left **two-thirds** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 5</kbd> | Snap to the middle **two-thirds** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 6</kbd> | Snap to the right **two-thirds** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 1</kbd> | Snap to the bottom-left **two-thirds** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 2</kbd> | Snap to the bottom **two-thirds** of the screen
+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 3</kbd> | Snap to the bottom-right **two-thirds** of the screen
 
 
 
