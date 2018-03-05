@@ -10,5 +10,5 @@ DetectHiddenWindows, off      ; Off is default
 
 #Include remap-keys.ahk
 #Include advanced-window-snap.ahk
-#Include undock-redock.ahk
+#Include restore-window-layout.ahk
 #Include utilities.ahk
