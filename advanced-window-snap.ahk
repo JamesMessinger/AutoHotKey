@@ -14,7 +14,7 @@
 ; Win+Alt+Shift+Arrow snaps widnows to the left/middle/right two-thirds
 #+!Left::SnapActiveWindow("left", "two-thirds", "top", "full")
 #+!Right::SnapActiveWindow("right", "two-thirds", "top", "full")
-#+!Down::SnapActiveWindow("middlet", "two-thirds", "top", "full")
+#+!Down::SnapActiveWindow("middle", "two-thirds", "top", "full")
 #+!Up::SnapActiveWindow("middle", "two-thirds", "top", "full")
 
 
