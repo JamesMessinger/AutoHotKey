@@ -1,0 +1,10 @@
+State=MAXIMIZED,X=9,Y=9,Width=2331,Height=1510,Title=Google Chrome
+State=MAXIMIZED,X=9,Y=9,Width=2332,Height=1511,Title=Spotify
+State=MAXIMIZED,X=9,Y=9,Width=2331,Height=1510,Title=Visual Studio
+State=MAXIMIZED,X=9,Y=9,Width=2331,Height=1510,Title=Calendar
+State=NORMAL,X=0,Y=0,Width=1811,Height=1491,Title=Slack
+State=MAXIMIZED,X=-9,Y=-9,Width=2332,Height=1511,Title=OneNote
+State=NORMAL,X=561,Y=271,Width=1204,Height=973,Title=Sublime Text
+State=NORMAL,X=1806,Y=779,Width=514,Height=719,Title=Messenger
+State=NORMAL,X=1807,Y=0,Width=513,Height=1499,Title=Twitter
+

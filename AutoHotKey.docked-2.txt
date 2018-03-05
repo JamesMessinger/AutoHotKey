@@ -1,0 +1,7 @@
+State=NORMAL,X=1795,Y=853,Width=1843,Height=1582,Title=Sublime Text
+State=NORMAL,X=2932,Y=3024,Width=724,Height=2101,Title=Twitter
+State=NORMAL,X=2933,Y=4121,Width=724,Height=1007,Title=Messenger
+State=NORMAL,X=1498,Y=0,Width=3891,Height=2967,Title=Visual Studio Code
+State=MAXIMIZED,X=393,Y=3012,Width=3264,Height=2114,Title=Google Chrome
+State=MAXIMIZED,X=393,Y=3012,Width=3264,Height=2114,Title=Spotify
+State=NORMAL,X=405,Y=3024,Width=2538,Height=2090,Title=Slack
