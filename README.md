@@ -34,10 +34,10 @@ Hotkey | Behavior
 <kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the right **third** of the screen
 <kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Snap to the middle **third** of the screen
 <kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&uarr;</kbd> | Snap to the middle **half** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&larr;</kbd> | Snap to the left **two-thirds** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the right **two-thirds** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Snap to the middle **two-thirds** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&uarr;</kbd> | Snap to the middle **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&larr;</kbd> | Snap to the left **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the right **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Snap to the middle **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&uarr;</kbd> | Snap to the middle **two-thirds** of the screen
 
 ##### Advanced Hotkeys (vertical)
 Hotkey | Behavior
@@ -50,10 +50,10 @@ Hotkey | Behavior
 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Snap to the bottom **third** of the screen
 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&larr;</kbd> | Snap to the middle **third** of the screen
 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the middle **third** of the screen
-<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&uarr;</kbd> | Snap to the top **two-thirds** of the screen
-<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Snap to the bottom **two-thirds** of the screen
-<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&larr;</kbd> | Snap to the middle **two-thirds** of the screen
-<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the middle **two-thirds** of the screen
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&uarr;</kbd> | Snap to the top **two-thirds** of the screen
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&darr;</kbd> | Snap to the bottom **two-thirds** of the screen
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&larr;</kbd> | Snap to the middle **two-thirds** of the screen
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>&rarr;</kbd> | Snap to the middle **two-thirds** of the screen
 
 ##### Advanced Hotkeys (centering)
 Hotkey | Behavior
@@ -82,15 +82,15 @@ Hotkey | Behavior
 <kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 1</kbd> | Snap to the bottom-left **third** of the screen
 <kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 2</kbd> | Snap to the bottom **third** of the screen
 <kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>Numpad 3</kbd> | Snap to the bottom-right **third** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 7</kbd> | Snap to the top-left **two-thirds** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 8</kbd> | Snap to the top **two-thirds** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 9</kbd> | Snap to the top-right **two-thirds** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 4</kbd> | Snap to the left **two-thirds** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 5</kbd> | Snap to the middle **two-thirds** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 6</kbd> | Snap to the right **two-thirds** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 1</kbd> | Snap to the bottom-left **two-thirds** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 2</kbd> | Snap to the bottom **two-thirds** of the screen
-<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 3</kbd> | Snap to the bottom-right **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 7</kbd> | Snap to the top-left **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 8</kbd> | Snap to the top **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 9</kbd> | Snap to the top-right **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 4</kbd> | Snap to the left **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 5</kbd> | Snap to the middle **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 6</kbd> | Snap to the right **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 1</kbd> | Snap to the bottom-left **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 2</kbd> | Snap to the bottom **two-thirds** of the screen
+<kbd>Shift</kbd>+<kbd>Win</kbd>+<kbd>Numpad 3</kbd> | Snap to the bottom-right **two-thirds** of the screen
 
 
 

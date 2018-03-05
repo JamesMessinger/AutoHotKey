@@ -11,11 +11,11 @@
 ; Win+Alt+Up snaps window to the middle half
 #!Up::SnapActiveWindow("middle", "half", "top", "full")
 
-; Win+Alt+Shift+Arrow snaps widnows to the left/middle/right two-thirds
-#+!Left::SnapActiveWindow("left", "two-thirds", "top", "full")
-#+!Right::SnapActiveWindow("right", "two-thirds", "top", "full")
-#+!Down::SnapActiveWindow("middle", "two-thirds", "top", "full")
-#+!Up::SnapActiveWindow("middle", "two-thirds", "top", "full")
+; Win+Shift+Arrow snaps widnows to the left/middle/right two-thirds
+#+Left::SnapActiveWindow("left", "two-thirds", "top", "full")
+#+Right::SnapActiveWindow("right", "two-thirds", "top", "full")
+#+Down::SnapActiveWindow("middle", "two-thirds", "top", "full")
+#+Up::SnapActiveWindow("middle", "two-thirds", "top", "full")
 
 
 
@@ -35,11 +35,11 @@
 ^#!Left::SnapActiveWindow("left", "full", "middle", "third")
 ^#!Right::SnapActiveWindow("left", "full", "middle", "third")
 
-; Ctrl+Alt+Shift+Win+Arrow snaps windows to the top/bottom two-thirds
-^#+!Up::SnapActiveWindow("left", "full", "top", "two-thirds")
-^#+!Down::SnapActiveWindow("left", "full", "bottom", "two-thirds")
-^#+!Left::SnapActiveWindow("left", "full", "middle", "two-thirds")
-^#+!Right::SnapActiveWindow("left", "full", "middle", "two-thirds")
+; Ctrl+Shift+Win+Arrow snaps windows to the top/bottom two-thirds
+^#+Up::SnapActiveWindow("left", "full", "top", "two-thirds")
+^#+Down::SnapActiveWindow("left", "full", "bottom", "two-thirds")
+^#+Left::SnapActiveWindow("left", "full", "middle", "two-thirds")
+^#+Right::SnapActiveWindow("left", "full", "middle", "two-thirds")
 
 
 
@@ -78,16 +78,16 @@ F24 & Enter::SnapActiveWindow("middle", "center-big", "middle", "center-big")
 #!Numpad2::SnapActiveWindow("left", "full", "bottom", "third")
 #!Numpad3::SnapActiveWindow("right", "third", "bottom", "third")
 
-; Win+Shift+Alt+Numpad snaps windows in two-thirds
-#!NumpadHome::SnapActiveWindow("left", "two-thirds", "top", "two-thirds")
-#!NumpadUp::SnapActiveWindow("left", "full", "top", "two-thirds")
-#!NumpadPgUp::SnapActiveWindow("right", "two-thirds", "top", "two-thirds")
-#!NumpadLeft::SnapActiveWindow("left", "two-thirds", "top", "full")
-#!NumpadClear::SnapActiveWindow("middle", "two-thirds", "top", "full")
-#!NumpadRight::SnapActiveWindow("right", "two-thirds", "top", "full")
-#!NumpadEnd::SnapActiveWindow("left", "two-thirds", "bottom", "two-thirds")
-#!NumpadDown::SnapActiveWindow("left", "full", "bottom", "two-thirds")
-#!NumpadPgDn::SnapActiveWindow("right", "two-thirds", "bottom", "two-thirds")
+; Win+Shift+Numpad snaps windows in two-thirds
+#NumpadHome::SnapActiveWindow("left", "two-thirds", "top", "two-thirds")
+#NumpadUp::SnapActiveWindow("left", "full", "top", "two-thirds")
+#NumpadPgUp::SnapActiveWindow("right", "two-thirds", "top", "two-thirds")
+#NumpadLeft::SnapActiveWindow("left", "two-thirds", "top", "full")
+#NumpadClear::SnapActiveWindow("middle", "two-thirds", "top", "full")
+#NumpadRight::SnapActiveWindow("right", "two-thirds", "top", "full")
+#NumpadEnd::SnapActiveWindow("left", "two-thirds", "bottom", "two-thirds")
+#NumpadDown::SnapActiveWindow("left", "full", "bottom", "two-thirds")
+#NumpadPgDn::SnapActiveWindow("right", "two-thirds", "bottom", "two-thirds")
 
 
 
