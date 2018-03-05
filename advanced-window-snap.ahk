@@ -38,6 +38,8 @@
 ; Ctrl+Alt+Shift+Win+Arrow snaps windows to the top/bottom two-thirds
 ^#+!Up::SnapActiveWindow("left", "full", "top", "two-thirds")
 ^#+!Down::SnapActiveWindow("left", "full", "bottom", "two-thirds")
+^#+!Left::SnapActiveWindow("left", "full", "middle", "two-thirds")
+^#+!Right::SnapActiveWindow("left", "full", "middle", "two-thirds")
 
 
 
