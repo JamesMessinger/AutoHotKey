@@ -36,3 +36,10 @@ Run, %A_AhkPath% "%AutoHotKeyDir%\AutoHotKey.ahk", %AutoHotKeyDir%
 
 4. __Set AutoHotKey to run at startup__<br>
 Create a shortcut to AutoHotKey (`C:\Program Files\AutoHotkey\AutoHotkey.exe`).  Then open the Windows Run utility (<kbd>Win</kbd>+<kbd>R</kbd>) and type `shell:startup` to open your Startup folder.  Then paste the AutoHotKey shortcut in this folder.
+
+
+
+License
+------------------------------------
+All of these scripts are [MIT licensed](http://opensource.org/licenses/MIT) and can be used however you want.  [AutoHotKey](https://www.autohotkey.com/) is [open-source](https://github.com/Lexikos/AutoHotkey_L) too!
+
