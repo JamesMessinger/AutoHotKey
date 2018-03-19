@@ -12,8 +12,8 @@ This script allows you to save and restore window layouts for different monitor 
 
 Hotkey | Behavior
 :------|:-------------------
-<kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>left</kbd> | Save the current window layout for the current monitor configuration.<br><br>Depending on how many monitors are connected, the window layout will be saved as `WindowLayout.1.txt`, `WindowLayout.2.txt`, etc.
-<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>0</kbd> | Restore the window layout for the current monitor configuration.<br><br>The window layout file is deleted afterward. You can create a `WindowLayout.#.default.txt` file for each monitor configuration, which will be applied if there is no saved layout file.
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>0</kbd> | Save the current window layout for the current monitor configuration.<br><br>Depending on how many monitors are connected, the window layout will be saved as `WindowLayout.1.txt`, `WindowLayout.2.txt`, etc.
+<kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>0</kbd> | Restore the window layout for the current monitor configuration.<br><br>The window layout file is deleted afterward. You can create a `WindowLayout.#.default.txt` file for each monitor configuration, which will be applied if there is no saved layout file.
 
 
 ### [`advanced-window-snap.ahk`](advanced-window-snap.ahk)
