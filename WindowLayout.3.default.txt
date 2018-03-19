@@ -1,10 +1,15 @@
-State=NORMAL,X=3830,Y=0,Width=2180,Height=2535,Title=Google Chrome
-State=NORMAL,X=3831,Y=2526,Width=2178,Height=1272,Title=OneNote
-State=NORMAL,X=3831,Y=2526,Width=2178,Height=1272,Title=Spotify
+State=NORMAL,X=1779,Y=0,Width=3609,Height=2967,Title=Visual Studio
+
+State=NORMAL,X=5363,Y=0,Width=3049,Height=3549,Title=Sourcetree
+State=NORMAL,X=5363,Y=0,Width=3049,Height=3549,Title=Google Chrome
+State=NORMAL,X=5363,Y=0,Width=3049,Height=3549,Title=OneNote
+
+State=NORMAL,X=5364,Y=3537,Width=3048,Height=1780,Title=Spotify
+State=NORMAL,X=5364,Y=3537,Width=3048,Height=1780,Title=Calendar
+
+State=NORMAL,X=826,Y=3024,Width=2538,Height=2090,Title=Slack
+State=NORMAL,X=3353,Y=3024,Width=724,Height=2101,Title=Twitter
+State=NORMAL,X=3353,Y=4190,Width=724,Height=935,Title=Messenger
+
 State=NORMAL,X=1335,Y=527,Width=1170,Height=1064,Title=Sublime Text
-State=NORMAL,X=2397,Y=2160,Width=513,Height=1499,Title=Twitter
-State=NORMAL,X=2398,Y=2939,Width=514,Height=719,Title=Messenger
-State=NORMAL,X=590,Y=2160,Width=1813,Height=1493,Title=Slack
-State=NORMAL,X=1270,Y=0,Width=2580,Height=2110,Title=Visual Studio
-State=NORMAL,X=3831,Y=2526,Width=2178,Height=1272,Title=Calendar
 
