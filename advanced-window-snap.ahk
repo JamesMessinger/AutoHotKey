@@ -98,6 +98,12 @@ SnapActiveWindow(HorizontalAlignment, HorizontalSize, VerticalAlignment, Vertica
   {
     ; Get the active window
     WinGet WindowID, ID, A
+    Window := GetWindowInfo(WindowID)
+
+    ; Don't snap system windows, such as the Desktop or Start Menu
+    If IsSystemWindow(Window) {
+      Return
+    }
 
     ; Determine which monitor the window is currently on
     CurrentMonitor := GetMonitorIndexFromWindow(WindowID)
