@@ -27,19 +27,23 @@ ErrorHandler(Exception)
 ; Determines whether the given window is a system window, such as the Desktop or Start Menu
 IsSystemWindow(Window)
 {
-  If ((Window.ProcessName = "ShellExperienceHost.exe") or (Window.ProcessName = "Explorer.EXE"))
+  ; Start Menu and Action Center
+  If ((Window.ProcessName = "ShellExperienceHost.exe")
+  and ((Window.Title = "Start") or (Window.Title = "Action center")))
   {
-    ; Start Menu and Action Center
-    If ((Window.Title = "Start") or (Window.Title = "Action center"))
-    {
-      Return True
-    }
+    Return True
+  }
 
-    ; Desktop
-    If ((Window.Title = "") and (Window.Class = "WorkerW"))
-    {
-      Return True
-    }
+  ; Cortana
+  If ((Window.ProcessName = "SearchUI.exe") and (Window.Title = "Cortana"))
+  {
+    Return True
+  }
+
+  ; Desktop
+  If ((Window.ProcessName = "Explorer.EXE") and (Window.Class = "WorkerW"))
+  {
+    Return True
   }
 
   ; These are window decorations, such as borders and drop shadows
