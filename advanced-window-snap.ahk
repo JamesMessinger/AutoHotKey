@@ -161,7 +161,7 @@ SnapActiveWindow(HorizontalAlignment, HorizontalSize, VerticalAlignment, Vertica
       ; If window is already there move to same spot on next monitor
       WinGetPos, CurrentLeft, CurrentTop, CurrentWidth, CurrentHeight, A
 
-      If ((Left = CurrentLeft) and (Top = CurrentTop) and (Width = CurrentWidth) and (Height = CurrentHeight))
+      If (IsNear(Left, CurrentLeft) and IsNear(Top, CurrentTop) and IsNear(Width, CurrentWidth) and IsNear(Height, CurrentHeight))
       {
         MonitorNumber := MonitorNumber + 1
         SnapActiveWindow(HorizontalAlignment, HorizontalSize, VerticalAlignment, VerticalSize, MonitorNumber)
@@ -251,4 +251,26 @@ CalculateWindowSize(Size, AvailableSize)
     Return AvailableSize * .5
   Else ; "full"
     Return AvailableSize
+}
+
+
+
+; Determines whether two position values (height, width, top, or left) are near each other,
+; within a few pixels
+IsNear(x, y)
+{
+  Tolerance := 25
+
+  If ((x >= y) and (x - y < Tolerance))
+  {
+    Return True
+  }
+  Else If ((y > x) and (y - x < Tolerance))
+  {
+    Return True
+  }
+  Else
+  {
+    Return False
+  }
 }
