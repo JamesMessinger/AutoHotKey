@@ -5,9 +5,9 @@ State=MAXIMIZED,X=9,Y=9,Width=2332,Height=1511,Title=Sourcetree
 State=MAXIMIZED,X=9,Y=9,Width=2331,Height=1510,Title=Calendar
 State=MAXIMIZED,X=9,Y=9,Width=2332,Height=1511,Title=OneNote
 
-State=NORMAL,X=0,Y=0,Width=1811,Height=1491,Title=Slack
-State=NORMAL,X=1807,Y=0,Width=513,Height=1499,Title=Twitter
-State=NORMAL,X=1806,Y=779,Width=514,Height=719,Title=Messenger
+State=NORMAL,X=0,Y=0,Width=2538,Height=2090,Title=Slack
+State=NORMAL,X=2527,Y=0,Width=724,Height=2101,Title=Twitter
+State=NORMAL,X=2527,Y=779,Width=724,Height=719,Title=Messenger
 
 State=NORMAL,X=561,Y=271,Width=1204,Height=973,Title=Sublime Text
 
