@@ -1,13 +1,9 @@
 ﻿; Win+Alt+0 to save the current window states
-#!0::
-  SaveWindowStates()
-  Return
+#!0::SaveWindowStates()
 
 
 ; Ctrl+Win+0 to restore previously-saved window states
-#^0::
-  RestoreWindowStates()
-  Return
+#^0::RestoreWindowStates()
 
 
 
