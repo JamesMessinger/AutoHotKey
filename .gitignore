@@ -23,6 +23,7 @@ nbproject
 *.temp.*
 .grunt
 .lock-wscript
+*-monitor-layout.txt
 
 # Logs
 /logs
