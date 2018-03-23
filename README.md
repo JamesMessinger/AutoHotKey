@@ -3,20 +3,20 @@ My Custom AutoHotKey Scripts
 These are my customized scripts for [AutoHotKey](https://www.autohotkey.com/).  These are highly tailored to my specific needs and preferences, but feel free to use them as a starting point for your own scripts.
 
 
-### [`remap-keys.ahk`](remap-keys.ahk)
+### [`remap-keys.ahk`](src/remap-keys.ahk)
 This script simply re-maps a few keyboard keys to behave the way I prefer.
 
 
-### [`restore-window-layout.ahk`](WindowLayout.ahk)
+### [`restore-window-layout.ahk`](src/restore-window-layout.ahk)
 This script allows you to save and restore window layouts for different monitor setups.  This is useful when undocking/re-docking a laptop to a docking station, or when connecting/disconnecting external monitors, projectors, etc.
 
 Hotkey | Behavior
 :------|:-------------------
-<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>0</kbd> | Save the current window layout for the current monitor configuration.<br><br>Depending on how many monitors are connected, the window layout will be saved as `WindowLayout.1.txt`, `WindowLayout.2.txt`, etc.
-<kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>0</kbd> | Restore the window layout for the current monitor configuration.<br><br>The window layout file is deleted afterward. You can create a `WindowLayout.#.default.txt` file for each monitor configuration, which will be applied if there is no saved layout file.
+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>0</kbd> | Save the current window layout for the current monitor configuration.<br><br>Depending on how many monitors are connected, the window layout will be saved in the `config` directory as `1-monitor-layout.txt`, `2-monitor-layout.txt`, etc.
+<kbd>Ctrl</kbd>+<kbd>Win</kbd>+<kbd>0</kbd> | Restore the window layout for the current monitor configuration.<br><br>The window layout file is deleted afterward. You can create a `config\#-monitor-layout.default.txt` file for each monitor configuration, which will be applied if there is no saved layout file.
 
 
-### [`advanced-window-snap.ahk`](advanced-window-snap.ahk)
+### [`advanced-window-snap.ahk`](src/advanced-window-snap.ahk)
 This script is based on [this script by Andrew Moore](https://gist.github.com/AWMooreCO/1ef708055a11862ca9dc), which extends Windows 10's built-in [window-snapping hotkeys](https://www.cnet.com/how-to/all-the-windows-10-keyboard-shortcuts-you-need-to-know/) to support additional window sizes and positions.
 
 ##### Default Windows Hotkeys
@@ -109,7 +109,7 @@ When AutoHotKey starts up, it looks for a file named `AutoHotKey.ahk` in your Do
 
 ```AutoHotKey
 AutoHotKeyDir := "C:\Users\James Messinger\Code\AutoHotKey"         ; <--- Edit this to point to your path
-Run, %A_AhkPath% "%AutoHotKeyDir%\AutoHotKey.ahk", %AutoHotKeyDir%
+Run, %A_AhkPath% "%AutoHotKeyDir%\src\AutoHotKey.ahk", %AutoHotKeyDir%
 ```
 
 4. __Set AutoHotKey to run at startup__<br>

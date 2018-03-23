@@ -1,5 +1,4 @@
-﻿
-; ========================================================================
+﻿; ========================================================================
 ; Horizontal Window Snapping
 ; ========================================================================
 
@@ -91,91 +90,26 @@ F24 & Enter::SnapActiveWindow("middle", "center-big", "middle", "center-big")
 
 
 
-; Resizes and moves (snaps) the active window to a specified position
-SnapActiveWindow(HorizontalAlignment, HorizontalSize, VerticalAlignment, VerticalSize, MonitorNumber := 0)
+; Resizes and moves (snaps) the active window to the specified position
+SnapActiveWindow(HorizontalAlignment, HorizontalSize, VerticalAlignment, VerticalSize)
 {
   Try
   {
+    Log("Snapping active window to " . HorizontalAlignment . " " . HorizontalSize . ", " . VerticalAlignment . " " . VerticalSize)
+
     ; Get the active window
     WinGet WindowID, ID, A
-    Window := GetWindowInfo(WindowID)
+    Window := GetWindow(WindowID)
 
     ; Don't snap system windows, such as the Desktop or Start Menu
     If IsSystemWindow(Window) {
       Return
     }
 
-    ; Determine which monitor the window is currently on
-    CurrentMonitor := GetMonitorIndexFromWindow(WindowID)
+    ; Get all Monitors, and determine which one the window is currently on
+    Monitors := GetMonitors()
 
-    ; Determine the target monitor number
-    SysGet, MonitorCount, MonitorCount
-
-    If (!MonitorNumber)
-      MonitorNumber := CurrentMonitor
-    Else If (MonitorNumber > MonitorCount)
-      MonitorNumber := 1
-
-    ; Calculate the monitor dimensions
-    SysGet, Monitor, MonitorWorkArea, %MonitorNumber%
-    MonitorWidth := (MonitorRight - MonitorLeft)
-    MonitorHeight := (MonitorBottom - MonitorTop)
-
-    ; Calculate the desired width and height of the window
-    Width := CalculateWindowSize(HorizontalSize, MonitorWidth)
-    Height := CalculateWindowSize(VerticalSize, MonitorHeight)
-
-    ; Borders (Windows 10)
-    SysGet, BorderWidth, 32
-    SysGet, BorderHeight, 33
-    If (BorderWidth) {
-      Width := Width + (BorderWidth * 2)
-    }
-    If (BorderHeight) {
-      Height := Height + BorderHeight
-    }
-
-    ; Calculate the desired top and left positions
-    If (HorizontalAlignment = "middle")
-      Left := (MonitorLeft + (MonitorWidth / 2)) - (Width / 2)
-    Else If (HorizontalAlignment = "right")
-      Left := MonitorRight - (Width - BorderWidth)
-    Else ; "left"
-      Left := MonitorLeft - BorderWidth
-
-    If (VerticalAlignment = "middle")
-      Top := (MonitorTop + (MonitorHeight / 2)) - ((Height / 2) - (BorderHeight / 2))
-    Else If (VerticalAlignment = "bottom")
-      Top := MonitorBottom - (Height - BorderHeight)
-    Else ; "top"
-      Top := MonitorTop
-
-    ; Rounding
-    Left := Floor(Left)
-    Top := Floor(Top)
-    Width := Floor(Width)
-    Height := Floor(Height)
-
-    If (MonitorNumber = CurrentMonitor)
-    {
-      ; If window is already there move to same spot on next monitor
-      WinGetPos, CurrentLeft, CurrentTop, CurrentWidth, CurrentHeight, A
-
-      If (IsNear(Left, CurrentLeft) and IsNear(Top, CurrentTop) and IsNear(Width, CurrentWidth) and IsNear(Height, CurrentHeight))
-      {
-        MonitorNumber := MonitorNumber + 1
-        SnapActiveWindow(HorizontalAlignment, HorizontalSize, VerticalAlignment, VerticalSize, MonitorNumber)
-        Return
-      }
-    }
-
-    ; Position and resize the window
-    WinRestore, A
-    WinMove, A, , %Left%, %Top%, %Width%, %Height%
-
-    ; If we changed monitors, then resize AGAIN to account for DPI differences between monitors
-    if (MonitorNumber <> CurrentMonitor)
-      WinMove, A, , %Left%, %Top%, %Width%, %Height%
+    SnapWindow(Window, Monitors, 0, HorizontalAlignment, HorizontalSize, VerticalAlignment, VerticalSize)
   }
   Catch Exception
   {
@@ -185,49 +119,88 @@ SnapActiveWindow(HorizontalAlignment, HorizontalSize, VerticalAlignment, Vertica
 
 
 
-/**
- * GetMonitorIndexFromWindow retrieves the HWND (unique ID) of a given window.
- *
- * @author shinywong
- * @link http://www.autohotkey.com/board/topic/69464-how-to-determine-a-window-is-in-which-monitor/?p=440355
- */
-GetMonitorIndexFromWindow(WindowHandle)
+; Resizes and moves (snaps) the given window to the specified position
+SnapWindow(Window, Monitors, TargetMonitor, HorizontalAlignment, HorizontalSize, VerticalAlignment, VerticalSize)
 {
-  ; Starts with 1.
-  MonitorIndex := 1
+  Log("Snapping window: " . GetWindowDescription(Window))
 
-  VarSetCapacity(MonitorInfo, 40)
-  NumPut(40, MonitorInfo)
+  ; Determine which monitor the window is currently on
+  Window.Monitor := GetMonitorForWindow(Window, Monitors)
 
-  MonitorID := DllCall("MonitorFromWindow", "uint", WindowHandle, "uint", 0x2)
-  If (MonitorID > 0)
+  ; Determine the target monitor
+  If (!TargetMonitor)
+    TargetMonitor := Window.Monitor
+
+  ; Calculate the desired width and height of the window
+  global MinimumWindowSize
+  Width := Max(CalculateWindowSize(HorizontalSize, TargetMonitor.WorkArea.Width), MinimumWindowSize)
+  Height := Max(CalculateWindowSize(VerticalSize, TargetMonitor.WorkArea.Height), MinimumWindowSize)
+
+  ; Borders (Windows 10)
+  SysGet, BorderWidth, 32
+  SysGet, BorderHeight, 33
+  If (BorderWidth) {
+    Width := Width + (BorderWidth * 2)
+  }
+  If (BorderHeight) {
+    Height := Height + BorderHeight
+  }
+
+  ; Calculate the desired top and left positions
+  If (HorizontalAlignment = "middle")
+    Left := (TargetMonitor.WorkArea.Left + (TargetMonitor.WorkArea.Width / 2)) - (Width / 2)
+  Else If (HorizontalAlignment = "right")
+    Left := TargetMonitor.WorkArea.Right - (Width - BorderWidth)
+  Else ; "left"
+    Left := TargetMonitor.WorkArea.Left - BorderWidth
+
+  If (VerticalAlignment = "middle")
+    Top := (TargetMonitor.WorkArea.Top + (TargetMonitor.WorkArea.Height / 2)) - ((Height / 2) - (BorderHeight / 2))
+  Else If (VerticalAlignment = "bottom")
+    Top := TargetMonitor.WorkArea.Bottom - (Height - BorderHeight)
+  Else ; "top"
+    Top := TargetMonitor.WorkArea.Top
+
+  ; Rounding
+  Left := Floor(Left)
+  Top := Floor(Top)
+  Width := Floor(Width)
+  Height := Floor(Height)
+
+  Log("Current Monitor: " . Window.Monitor.ID . "`r`n"
+    . "Current Dimensions:" . "`r`n"
+    . "  Left: " . Window.Left . "`r`n"
+    . "  Top: " . Window.Top . "`r`n"
+    . "  Width: " . Window.Width . "`r`n"
+    . "  Height: " . Window.Height . "`r`n"
+    . "`r`n"
+    . "New Monitor: " . TargetMonitor.ID . "`r`n"
+    . "New Dimensions:" . "`r`n"
+    . "  Left: " . Left . "`r`n"
+    . "  Top: " . Top . "`r`n"
+    . "  Width: " . Width . "`r`n"
+    . "  Height: " . Height . "`r`n")
+
+  If (TargetMonitor.ID = Window.Monitor.ID)
   {
-    DllCall("GetMonitorInfo", "uint", MonitorID, "uint", &MonitorInfo)
-    MonitorLeft       := NumGet(MonitorInfo,  4, "Int")
-    MonitorTop        := NumGet(MonitorInfo,  8, "Int")
-    MonitorRight      := NumGet(MonitorInfo, 12, "Int")
-    MonitorBottom     := NumGet(MonitorInfo, 16, "Int")
-    WorkspaceLeft     := NumGet(MonitorInfo, 20, "Int")
-    WorkspaceTop      := NumGet(MonitorInfo, 24, "Int")
-    WorkspaceRight    := NumGet(MonitorInfo, 28, "Int")
-    WorkspaceBottom   := NumGet(MonitorInfo, 32, "Int")
-    isPrimary         := NumGet(MonitorInfo, 36, "Int") & 1
-
-    SysGet, MonitorCount, MonitorCount
-
-    Loop, %MonitorCount% {
-      SysGet, TempMon, Monitor, %A_Index%
-
-      ; Compare location to determine the monitor index.
-      If ((MonitorLeft = TempMonLeft) and (MonitorTop = TempMonTop)
-          and (MonitorRight = TempMonRight) and (MonitorBottom = TempMonBottom)) {
-          MonitorIndex := A_Index
-          Break
-      }
+    ; The window is already on the right monitor.  Is it also already in the right spot?
+    WinGetPos, CurrentLeft, CurrentTop, CurrentWidth, CurrentHeight, A
+    If (IsNear(Left, CurrentLeft) and IsNear(Top, CurrentTop) and IsNear(Width, CurrentWidth) and IsNear(Height, CurrentHeight))
+    {
+      ; Move the window to the same spot on the next monitor
+      TargetMonitor := GetNextMonitor(TargetMonitor, Monitors)
+      SnapWindow(Window, Monitors, TargetMonitor, HorizontalAlignment, HorizontalSize, VerticalAlignment, VerticalSize)
+      Return
     }
   }
 
-  return %MonitorIndex%
+  ; Position and resize the window
+  WinRestore, A
+  WinMove, A, , %Left%, %Top%, %Width%, %Height%
+
+  ; If we changed monitors, then resize AGAIN to account for DPI differences between monitors
+  if (TargetMonitor.ID <> Window.Monitor.ID)
+    WinMove, A, , %Left%, %Top%, %Width%, %Height%
 }
 
 
@@ -274,3 +247,5 @@ IsNear(x, y)
     Return False
   }
 }
+
+
