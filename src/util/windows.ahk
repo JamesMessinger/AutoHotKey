@@ -37,7 +37,7 @@ GetWindow(ID)
   WinGetTitle, Title, ahk_id %ID%
   WinGetClass, Class, ahk_id %ID%
   WinGet, State, MinMax, ahk_id %ID%
-  WinGet, ProcessName, ProcessName, ahk_id %ID%
+  WinGet, Process, ProcessName, ahk_id %ID%
   WinGet, Transparency, Transparent, ahk_id %ID%
   WinGetPos, Left, Top, Width, Height, ahk_id %ID%
 
@@ -45,7 +45,7 @@ GetWindow(ID)
   Window.ID := ID
   Window.Title := Title
   Window.Class := Class
-  Window.ProcessName := ProcessName
+  Window.Process := Process
   Window.Left := Left
   Window.Right := Left + Width
   Window.Top := Top
@@ -67,7 +67,7 @@ GetWindow(ID)
   Log("========== " . "Window #" . Window.ID . " ==========`r`n"
     . "Title: " . Window.Title . "`r`n"
     . "Class: " . Window.Class . "`r`n"
-    . "Process: " . Window.ProcessName . "`r`n"
+    . "Process: " . Window.Process . "`r`n"
     . "State: " . Window.State . "`r`n"
     . "Transparency: " . Window.Transparency . "`r`n"
     . "System Window: " . (IsSystemWindow(Window) ? "yes" : "no") . "`r`n"
@@ -89,7 +89,7 @@ GetWindowDescription(Window)
 {
   Description := Window.Title
   If IsEmptyString(Window.Title)
-    Description := Window.ProcessName . ": " . Window.Class
+    Description := Window.Process . ": " . Window.Class
   Else If InStr(Window.Title, "Sublime Text")
     Description := "Sublime Text"
   Else If InStr(Window.Title, "Slack - ")
@@ -244,20 +244,20 @@ SetWindowLayout(Window, Layout, Monitors)
 IsSystemWindow(Window)
 {
   ; Start Menu and Action Center
-  If ((Window.ProcessName = "ShellExperienceHost.exe")
+  If ((Window.Process = "ShellExperienceHost.exe")
   and ((Window.Title = "Start") or (Window.Title = "Action center")))
   {
     Return True
   }
 
   ; Cortana
-  If ((Window.ProcessName = "SearchUI.exe") and (Window.Title = "Cortana"))
+  If ((Window.Process = "SearchUI.exe") and (Window.Title = "Cortana"))
   {
     Return True
   }
 
   ; Desktop
-  If ((Window.ProcessName = "Explorer.EXE") and (Window.Class = "WorkerW"))
+  If ((Window.Process = "Explorer.EXE") and (Window.Class = "WorkerW"))
   {
     Return True
   }
