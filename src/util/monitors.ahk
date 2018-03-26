@@ -139,9 +139,12 @@ GetMonitorForPoint(X, Y, Monitors)
 ; Returns the NEXT monitor in the list, or the first monitor
 GetNextMonitor(CurrentMonitor, Monitors)
 {
+  If (CurrentMonitor.ID)
+    CurrentMonitor := CurrentMonitor.ID
+
   For Index, Monitor In Monitors
   {
-    If (Monitor.ID = CurrentMonitor.ID)
+    If (Monitor.ID = CurrentMonitor)
     {
       NextMonitor := Monitors[Index + 1]
       If (NextMonitor)
