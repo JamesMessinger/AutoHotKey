@@ -5,10 +5,10 @@
 SendMode Input                ; Recommended for new scripts due to its superior speed and reliability.
 SetTitleMatchMode, 2          ; 1: starts with    2: contains
 SetTitleMatchMode, Fast       ; Fast is default
-DetectHiddenWindows, off      ; Off is default
+DetectHiddenWindows, Off      ; Off is default
 
 ; Enable/Disable logging
-LoggingEnabled := True
+LoggingEnabled := False
 
 ; The minimum width/height allowed to set a window to.
 ; This prevents windows from being mistakenly resized too small to see
