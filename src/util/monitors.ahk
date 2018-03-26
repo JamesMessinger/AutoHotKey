@@ -121,12 +121,12 @@ GetMonitorForPoint(X, Y, Monitors)
 {
   For Index, Monitor in Monitors
   {
-    If ((Y >= Monitor.Bounds.Top) and (X >= Monitor.Bounds.Left)
-    and (Y <= Monitor.Bounds.Bottom) and (X <= Monitor.Bounds.Right))
+    If ((X >= Monitor.Bounds.Left) and (Y >= Monitor.Bounds.Top)
+    and (X <= Monitor.Bounds.Right) and (Y <= Monitor.Bounds.Bottom))
     {
       Log("Point " . X . ", " . Y . " is on monitor #" . Monitor.ID
-        . " (" . Monitor.Bounds.Top . ", " . Monitor.Bounds.Left
-        . " to " . Monitor.Bounds.Bottom . ", " . Monitor.Bounds.Right . ")")
+        . " (" . Monitor.Bounds.Left . ", " . Monitor.Bounds.Top
+        . " to " . Monitor.Bounds.Right . ", " . Monitor.Bounds.Bottom . ")")
       Return Monitor
     }
   }
