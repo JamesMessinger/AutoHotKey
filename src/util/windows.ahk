@@ -146,10 +146,10 @@ GetRelativeWindowBounds(Window, Monitor)
 
 
 
-; Sets a window's size and position to the specified layout
-SetWindowLayout(Window, Layout, Monitors)
+; Calculates the window's bounds (top, left, width, height, etc.), from percentages
+GetAbsoluteWindowBounds(Window, Layout, Monitors)
 {
-  Log("`r`nRestoring window #" . Window.ID . ": " . GetWindowDescription(Window))
+  global MinimumWindowSize
 
   ; Determine which monitor the window is currently on
   If (!Window.Monitor)
@@ -169,6 +169,32 @@ SetWindowLayout(Window, Layout, Monitors)
   Width := PercentageOf(Layout.Width, Monitor.WorkArea.Width)
   Height := PercentageOf(Layout.Height, Monitor.WorkArea.Height)
 
+  ; Window borders (Windows 10)
+  SysGet, BorderWidth, 32
+  SysGet, BorderHeight, 33
+  Left := Left - BorderWidth
+  Width := Width + (BorderWidth * 2)
+  Height := Height + BorderHeight
+
+  Absolute := {}
+  Absolute.Monitor := Monitor.ID
+  Absolute.Left := Floor(Left)
+  Absolute.Top := Floor(Top)
+  Absolute.Width := Floor(Max(Width, MinimumWindowSize))
+  Absolute.Height := Floor(Max(Height, MinimumWindowSize))
+  Return Absolute
+}
+
+
+
+; Sets a window's size and position to the specified layout
+SetWindowLayout(Window, Layout, Monitors)
+{
+  Log("`r`nRestoring window #" . Window.ID . ": " . GetWindowDescription(Window))
+
+  ; Calculate the absolute size & position to move the window to
+  NewLocation := GetAbsoluteWindowBounds(Window, Layout, Monitors)
+
   Log("Current Monitor: " . Window.Monitor.ID . "`r`n"
     . "Current Dimensions:" . "`r`n"
     . "  Left: " . Window.Left . "`r`n"
@@ -176,24 +202,40 @@ SetWindowLayout(Window, Layout, Monitors)
     . "  Width: " . Window.Width . "`r`n"
     . "  Height: " . Window.Height . "`r`n"
     . "`r`n"
-    . "New Monitor: " . Monitor.ID . "`r`n"
+    . "New Monitor: " . NewLocation.Monitor . "`r`n"
     . "New Dimensions:" . "`r`n"
-    . "  Left: " . Left . "`r`n"
-    . "  Top: " . Top . "`r`n"
-    . "  Width: " . Width . "`r`n"
-    . "  Height: " . Height . "`r`n")
+    . "  Left: " . NewLocation.Left . "`r`n"
+    . "  Top: " . NewLocation.Top . "`r`n"
+    . "  Width: " . NewLocation.Width . "`r`n"
+    . "  Height: " . NewLocation.Height . "`r`n")
 
   ; Restore the window position
   Title := "ahk_id " . Window.ID
-  WinRestore %Title%
-  WinMove, %Title%, , %Left%, %Top%
 
+  ; If the window is currently minimized or maximized, then restore it first,
+  ; so we can resize and position it
+  If (Window.State != "NORMAL")
+  {
+    WinRestore %Title%
+  }
+
+  ; If the window is moving to a new monitor, then we need to resize it TWICE
+  ; to account for any change in DPI between the two monitors
+  If (NewLocation.Monitor != Window.Monitor.ID)
+  {
+    Log("The window has been moved to a new monitor. Adjusting for DPI differences")
+    WinMove, %Title%, , NewLocation.Left, NewLocation.Top, NewLocation.Width, NewLocation.Height
+    Window.Monitor := FindByID(Monitors, NewLocation.Monitor)
+  }
+
+  ; Position and resize the window
+  WinMove, %Title%, , NewLocation.Left, NewLocation.Top, NewLocation.Width, NewLocation.Height
+
+  ; Set the window's minimized/maximized state, if necessary
   If (Layout.State = "MAXIMIZED")
     WinMaximize, %Title%
   Else If (Layout.State = "MINIMIZED")
     WinMinimize, %Title%
-  Else
-    WinMove, %Title%, , Left, Top, Width, Height
 }
 
 

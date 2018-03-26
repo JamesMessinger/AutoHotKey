@@ -3,18 +3,18 @@
 ; ========================================================================
 
 ; Win+Alt+Arrow snaps windows to the left/middle/right third
-#!Left::SnapActiveWindow("left", "third", "top", "full")
-#!Right::SnapActiveWindow("right", "third", "top", "full")
-#!Down::SnapActiveWindow("middle", "third", "top", "full")
+#!Left::SnapActiveWindow({ Left: 0, Top: 0, Width: 33, Height: 100 })
+#!Right::SnapActiveWindow({ Left: 67, Top: 0, Width: 33, Height: 100 })
+#!Down::SnapActiveWindow({ Left: 33, Top: 0, Width: 34, Height: 100 })
 
 ; Win+Alt+Up snaps window to the middle half
-#!Up::SnapActiveWindow("middle", "half", "top", "full")
+#!Up::SnapActiveWindow({ Left: 25, Top: 0, Width: 50, Height: 100 })
 
 ; Win+Shift+Arrow snaps widnows to the left/middle/right two-thirds
-#+Left::SnapActiveWindow("left", "two-thirds", "top", "full")
-#+Right::SnapActiveWindow("right", "two-thirds", "top", "full")
-#+Down::SnapActiveWindow("middle", "two-thirds", "top", "full")
-#+Up::SnapActiveWindow("middle", "two-thirds", "top", "full")
+#+Left::SnapActiveWindow({ Left: 0, Top: 0, Width: 67, Height: 100 })
+#+Right::SnapActiveWindow({ Left: 33, Top: 0, Width: 67, Height: 100 })
+#+Down::SnapActiveWindow({ Left: 16, Top: 0, Width: 67, Height: 100 })
+#+Up::SnapActiveWindow({ Left: 16, Top: 0, Width: 67, Height: 100 })
 
 
 
@@ -23,31 +23,35 @@
 ; ========================================================================
 
 ; Ctrl+Win+Arrow snaps windows to the top/middle/bottom half
-^#Up::SnapActiveWindow("left", "full", "top", "half")
-^#Down::SnapActiveWindow("left", "full", "bottom", "half")
-^#Left::SnapActiveWindow("left", "full", "middle", "half")
-^#Right::SnapActiveWindow("left", "full", "middle", "half")
+^#Up::SnapActiveWindow({ Left: 0, Top: 0, Width: 100, Height: 50 })
+^#Down::SnapActiveWindow({ Left: 0, Top: 50, Width: 100, Height: 50 })
+^#Left::SnapActiveWindow({ Left: 0, Top: 25, Width: 100, Height: 50 })
+^#Right::SnapActiveWindow({ Left: 0, Top: 25, Width: 100, Height: 50 })
 
 ; Ctrl+Alt+Win+Arrow snaps windows to the top/middle/bottom third
-^#!Up::SnapActiveWindow("left", "full", "top", "third")
-^#!Down::SnapActiveWindow("left", "full", "bottom", "third")
-^#!Left::SnapActiveWindow("left", "full", "middle", "third")
-^#!Right::SnapActiveWindow("left", "full", "middle", "third")
+^#!Up::SnapActiveWindow({ Left: 0, Top: 0, Width: 100, Height: 33 })
+^#!Down::SnapActiveWindow({ Left: 0, Top: 67, Width: 100, Height: 33 })
+^#!Left::SnapActiveWindow({ Left: 0, Top: 33, Width: 100, Height: 34 })
+^#!Right::SnapActiveWindow({ Left: 0, Top: 33, Width: 100, Height: 34 })
 
 ; Ctrl+Shift+Win+Arrow snaps windows to the top/bottom two-thirds
-^#+Up::SnapActiveWindow("left", "full", "top", "two-thirds")
-^#+Down::SnapActiveWindow("left", "full", "bottom", "two-thirds")
-^#+Left::SnapActiveWindow("left", "full", "middle", "two-thirds")
-^#+Right::SnapActiveWindow("left", "full", "middle", "two-thirds")
+^#+Up::SnapActiveWindow({ Left: 0, Top: 0, Width: 100, Height: 67 })
+^#+Down::SnapActiveWindow({ Left: 0, Top: 33, Width: 100, Height: 67 })
+^#+Left::SnapActiveWindow({ Left: 0, Top: 16, Width: 100, Height: 67 })
+^#+Right::SnapActiveWindow({ Left: 0, Top: 16, Width: 100, Height: 67 })
 
 
 
 ; ========================================================================
 ; Horizontal & Vertical Window Centering
 ; ========================================================================
-#Enter::SnapActiveWindow("middle", "center-big", "middle", "center-big")
-F24 & Enter::SnapActiveWindow("middle", "center-big", "middle", "center-big")
-#!Enter::SnapActiveWindow("middle", "center-small", "middle", "center-small")
+
+; Win+Enter centers the window, large
+#Enter::SnapActiveWindow({ Left: 25, Top: 10, Width: 50, Height: 80 })
+F24 & Enter::SnapActiveWindow({ Left: 25, Top: 10, Width: 50, Height: 80 })
+
+; Win+Alt+Enter centers the window, small
+#!Enter::SnapActiveWindow({ Left: 35, Top: 25, Width: 30, Height: 50 })
 
 
 
@@ -56,60 +60,64 @@ F24 & Enter::SnapActiveWindow("middle", "center-big", "middle", "center-big")
 ; ========================================================================
 
 ; Win+Numpad snaps windows in halves
-#Numpad7::SnapActiveWindow("left", "half", "top", "half")
-#Numpad8::SnapActiveWindow("left", "full", "top", "half")
-#Numpad9::SnapActiveWindow("right", "half", "top", "half")
-#Numpad4::SnapActiveWindow("left", "half", "top", "full")
-#Numpad5::SnapActiveWindow("middle", "half", "middle", "full")
-#Numpad6::SnapActiveWindow("right", "half", "top", "full")
-#Numpad1::SnapActiveWindow("left", "half", "bottom", "half")
-#Numpad2::SnapActiveWindow("left", "full", "bottom", "half")
-#Numpad3::SnapActiveWindow("right", "half", "bottom", "half")
+#Numpad7::SnapActiveWindow({ Left: 0, Top: 0, Width: 50, Height: 50 })
+#Numpad8::SnapActiveWindow({ Left: 0, Top: 0, Width: 100, Height: 50 })
+#Numpad9::SnapActiveWindow({ Left: 50, Top: 0, Width: 50, Height: 50 })
+#Numpad4::SnapActiveWindow({ Left: 0, Top: 0, Width: 50, Height: 100 })
+#Numpad5::SnapActiveWindow({ Left: 25, Top: 0, Width: 50, Height: 100 })
+#Numpad6::SnapActiveWindow({ Left: 50, Top: 0, Width: 50, Height: 100 })
+#Numpad1::SnapActiveWindow({ Left: 0, Top: 50, Width: 50, Height: 50 })
+#Numpad2::SnapActiveWindow({ Left: 0, Top: 50, Width: 100, Height: 50 })
+#Numpad3::SnapActiveWindow({ Left: 50, Top: 50, Width: 50, Height: 50 })
 
 ; Win+Alt+Numpad snaps windows in thirds
-#!Numpad7::SnapActiveWindow("left", "third", "top", "third")
-#!Numpad8::SnapActiveWindow("left", "full", "top", "third")
-#!Numpad9::SnapActiveWindow("right", "third", "top", "third")
-#!Numpad4::SnapActiveWindow("left", "third", "top", "full")
-#!Numpad5::SnapActiveWindow("middle", "third", "top", "full")
-#!Numpad6::SnapActiveWindow("right", "third", "top", "full")
-#!Numpad1::SnapActiveWindow("left", "third", "bottom", "third")
-#!Numpad2::SnapActiveWindow("left", "full", "bottom", "third")
-#!Numpad3::SnapActiveWindow("right", "third", "bottom", "third")
+#!Numpad7::SnapActiveWindow({ Left: 0, Top: 0, Width: 33, Height: 33 })
+#!Numpad8::SnapActiveWindow({ Left: 0, Top: 0, Width: 100, Height: 33 })
+#!Numpad9::SnapActiveWindow({ Left: 67, Top: 0, Width: 33, Height: 33 })
+#!Numpad4::SnapActiveWindow({ Left: 0, Top: 0, Width: 33, Height: 100 })
+#!Numpad5::SnapActiveWindow({ Left: 33, Top: 0, Width: 34, Height: 100 })
+#!Numpad6::SnapActiveWindow({ Left: 67, Top: 0, Width: 33, Height: 100 })
+#!Numpad1::SnapActiveWindow({ Left: 0, Top: 67, Width: 33, Height: 33 })
+#!Numpad2::SnapActiveWindow({ Left: 0, Top: 67, Width: 100, Height: 33 })
+#!Numpad3::SnapActiveWindow({ Left: 67, Top: 67, Width: 34, Height: 33 })
 
 ; Win+Shift+Numpad snaps windows in two-thirds
-#NumpadHome::SnapActiveWindow("left", "two-thirds", "top", "two-thirds")
-#NumpadUp::SnapActiveWindow("left", "full", "top", "two-thirds")
-#NumpadPgUp::SnapActiveWindow("right", "two-thirds", "top", "two-thirds")
-#NumpadLeft::SnapActiveWindow("left", "two-thirds", "top", "full")
-#NumpadClear::SnapActiveWindow("middle", "two-thirds", "top", "full")
-#NumpadRight::SnapActiveWindow("right", "two-thirds", "top", "full")
-#NumpadEnd::SnapActiveWindow("left", "two-thirds", "bottom", "two-thirds")
-#NumpadDown::SnapActiveWindow("left", "full", "bottom", "two-thirds")
-#NumpadPgDn::SnapActiveWindow("right", "two-thirds", "bottom", "two-thirds")
+#NumpadHome::SnapActiveWindow({ Left: 0, Top: 0, Width: 67, Height: 67 })
+#NumpadUp::SnapActiveWindow({ Left: 0, Top: 0, Width: 100, Height: 67 })
+#NumpadPgUp::SnapActiveWindow({ Left: 33, Top: 0, Width: 67, Height: 67 })
+#NumpadLeft::SnapActiveWindow({ Left: 0, Top: 0, Width: 67, Height: 100 })
+#NumpadClear::SnapActiveWindow({ Left: 16, Top: 0, Width: 67, Height: 100 })
+#NumpadRight::SnapActiveWindow({ Left: 33, Top: 0, Width: 67, Height: 100 })
+#NumpadEnd::SnapActiveWindow({ Left: 0, Top: 33, Width: 67, Height: 67 })
+#NumpadDown::SnapActiveWindow({ Left: 0, Top: 33, Width: 100, Height: 67 })
+#NumpadPgDn::SnapActiveWindow({ Left: 33, Top: 33, Width: 67, Height: 67 })
 
 
 
-; Resizes and moves (snaps) the active window to the specified position
-SnapActiveWindow(HorizontalAlignment, HorizontalSize, VerticalAlignment, VerticalSize)
+; Resizes and moves (snaps) the active window to the specified layout
+SnapActiveWindow(Layout)
 {
   Try
   {
-    Log("Snapping active window to " . HorizontalAlignment . " " . HorizontalSize . ", " . VerticalAlignment . " " . VerticalSize)
+    Log("`r`nSnapping active window to "
+    . Layout.Width . "% x " . Layout.Height . "% at "
+    . Layout.Left . "%, " . Layout.Top . "%")
 
     ; Get the active window
     WinGet WindowID, ID, A
     Window := GetWindow(WindowID)
+    Log("Active window is " . GetWindowDescription(Window))
 
     ; Don't snap system windows, such as the Desktop or Start Menu
     If IsSystemWindow(Window) {
+      Log("!!!!! This is a system window, so it cannot be snapped")
       Return
     }
 
     ; Get all Monitors, and determine which one the window is currently on
     Monitors := GetMonitors()
 
-    SnapWindow(Window, Monitors, 0, HorizontalAlignment, HorizontalSize, VerticalAlignment, VerticalSize)
+    SnapWindow(Window, Layout, Monitors)
   }
   Catch Exception
   {
@@ -119,112 +127,33 @@ SnapActiveWindow(HorizontalAlignment, HorizontalSize, VerticalAlignment, Vertica
 
 
 
-; Resizes and moves (snaps) the given window to the specified position
-SnapWindow(Window, Monitors, TargetMonitor, HorizontalAlignment, HorizontalSize, VerticalAlignment, VerticalSize)
+; Resizes and moves (snaps) the given window to the specified layout
+SnapWindow(Window, Layout, Monitors)
 {
-  Log("Snapping window: " . GetWindowDescription(Window))
+  ; Calculate the absolute size to snap the window to
+  NewLocation := GetAbsoluteWindowBounds(Window, Layout, Monitors)
 
-  ; Determine which monitor the window is currently on
-  Window.Monitor := GetMonitorForWindow(Window, Monitors)
-
-  ; Determine the target monitor
-  If (!TargetMonitor)
-    TargetMonitor := Window.Monitor
-
-  ; Calculate the desired width and height of the window
-  global MinimumWindowSize
-  Width := Max(CalculateWindowSize(HorizontalSize, TargetMonitor.WorkArea.Width), MinimumWindowSize)
-  Height := Max(CalculateWindowSize(VerticalSize, TargetMonitor.WorkArea.Height), MinimumWindowSize)
-
-  ; Borders (Windows 10)
-  SysGet, BorderWidth, 32
-  SysGet, BorderHeight, 33
-  If (BorderWidth) {
-    Width := Width + (BorderWidth * 2)
-  }
-  If (BorderHeight) {
-    Height := Height + BorderHeight
-  }
-
-  ; Calculate the desired top and left positions
-  If (HorizontalAlignment = "middle")
-    Left := (TargetMonitor.WorkArea.Left + (TargetMonitor.WorkArea.Width / 2)) - (Width / 2)
-  Else If (HorizontalAlignment = "right")
-    Left := TargetMonitor.WorkArea.Right - (Width - BorderWidth)
-  Else ; "left"
-    Left := TargetMonitor.WorkArea.Left - BorderWidth
-
-  If (VerticalAlignment = "middle")
-    Top := (TargetMonitor.WorkArea.Top + (TargetMonitor.WorkArea.Height / 2)) - ((Height / 2) - (BorderHeight / 2))
-  Else If (VerticalAlignment = "bottom")
-    Top := TargetMonitor.WorkArea.Bottom - (Height - BorderHeight)
-  Else ; "top"
-    Top := TargetMonitor.WorkArea.Top
-
-  ; Rounding
-  Left := Floor(Left)
-  Top := Floor(Top)
-  Width := Floor(Width)
-  Height := Floor(Height)
-
-  Log("Current Monitor: " . Window.Monitor.ID . "`r`n"
-    . "Current Dimensions:" . "`r`n"
-    . "  Left: " . Window.Left . "`r`n"
-    . "  Top: " . Window.Top . "`r`n"
-    . "  Width: " . Window.Width . "`r`n"
-    . "  Height: " . Window.Height . "`r`n"
-    . "`r`n"
-    . "New Monitor: " . TargetMonitor.ID . "`r`n"
-    . "New Dimensions:" . "`r`n"
-    . "  Left: " . Left . "`r`n"
-    . "  Top: " . Top . "`r`n"
-    . "  Width: " . Width . "`r`n"
-    . "  Height: " . Height . "`r`n")
-
-  If (TargetMonitor.ID = Window.Monitor.ID)
+  If (NewLocation.Monitor = Window.Monitor.ID)
   {
-    ; The window is already on the right monitor.  Is it also already in the right spot?
-    WinGetPos, CurrentLeft, CurrentTop, CurrentWidth, CurrentHeight, A
-    If (IsNear(Left, CurrentLeft) and IsNear(Top, CurrentTop) and IsNear(Width, CurrentWidth) and IsNear(Height, CurrentHeight))
+    ; The window is already on the right monitor.
+    ; Is it also already in the right spot?
+    If (IsNear(Window.Left, NewLocation.Left)
+    and IsNear(Window.Top, NewLocation.Top)
+    and IsNear(Window.Width, NewLocation.Width)
+    and IsNear(Window.Height, NewLocation.Height))
     {
       ; Move the window to the same spot on the next monitor
-      TargetMonitor := GetNextMonitor(TargetMonitor, Monitors)
-      SnapWindow(Window, Monitors, TargetMonitor, HorizontalAlignment, HorizontalSize, VerticalAlignment, VerticalSize)
+      Layout.Monitor := GetNextMonitor(NewLocation.Monitor, Monitors).ID
+      Log("Moving the window to monitor #" . Layout.Monitor)
+      SnapWindow(Window, Layout, Monitors)
       Return
     }
   }
 
-  ; Position and resize the window
-  WinRestore, A
-  WinMove, A, , %Left%, %Top%, %Width%, %Height%
-
-  ; If we changed monitors, then resize AGAIN to account for DPI differences between monitors
-  if (TargetMonitor.ID <> Window.Monitor.ID)
-    WinMove, A, , %Left%, %Top%, %Width%, %Height%
+  ; Move the window to the new layout
+  SetWindowLayout(Window, Layout, Monitors)
 }
 
-
-
-; Calculates the desired window size from the available size, using measurements like "half", "two-thirds", "full", etc.
-CalculateWindowSize(Size, AvailableSize)
-{
-  If (Size = "half")
-    Return AvailableSize / 2
-  Else If (Size = "third")
-    Return AvailableSize / 3
-  Else If (Size = "two-thirds")
-    Return (AvailableSize / 3) * 2
-  Else If (Size = "center-big") and (AvailableSize > 3000)
-    Return AvailableSize * .5
-  Else If (Size = "center-big")
-    Return AvailableSize * .8
-  Else If (Size = "center-small") and (AvailableSize > 3000)
-    Return AvailableSize * .3
-  Else If (Size = "center-small")
-    Return AvailableSize * .5
-  Else ; "full"
-    Return AvailableSize
-}
 
 
 
