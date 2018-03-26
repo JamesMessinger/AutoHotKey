@@ -8,7 +8,7 @@ SetTitleMatchMode, Fast       ; Fast is default
 DetectHiddenWindows, off      ; Off is default
 
 ; Enable/Disable logging
-LoggingEnabled := True
+LoggingEnabled := False
 
 ; The minimum width/height allowed to set a window to.
 ; This prevents windows from being mistakenly resized too small to see
