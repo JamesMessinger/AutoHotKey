@@ -30,6 +30,32 @@ PercentageOf(Percent, Whole)
 
 
 
+; Returns the items from Subset that are also in Superset
+SubsetOf(Superset, Subset)
+{
+  ; Special case: If there is no superset, then the entire subset is returned
+  If (Superset.Length() = 0)
+    Return Subset
+
+  Intersection := []
+
+  For Index, SubItem in Subset
+  {
+    For Index, SuperItem in Superset
+    {
+      If (SuperItem.ID = SubItem.ID)
+      {
+        Intersection.Push(SubItem)
+        Break
+      }
+    }
+  }
+
+  Return Intersection
+}
+
+
+
 ; Determines whether two position values (height, width, top, or left) are near each other,
 ; within a few pixels
 IsNear(a, b)

@@ -50,15 +50,20 @@ SaveWindowLayouts()
 
         ; Append text to this monitor's group
         Text := GroupedText[Window.Monitor.ID]
-        Text.Description := Text.Description . "  " . GetWindowDescription(Window) . "`r`n"
+
+        If (Window.Title)
+          Text.Description := Text.Description . "  " . GetWindowDescription(Window) . "`r`n"
+
         Text.Data := Text.Data
-          . "ID=" . Window.ID
-          . ",Monitor=" . Window.Monitor.ID
+          . "Monitor=" . Window.Monitor.ID
           . ",State=" . Window.State
           . ",Left=" . Relative.Left
           . ",Top=" . Relative.Top
           . ",Width=" . Relative.Width
           . ",Height=" . Relative.Height
+          . ",ID=" . Window.ID
+          . ",Process=" . Window.Process
+          . ",Class=" . Window.Class
           . ",Title=" . Window.Title
           . "`r`n"
 
@@ -99,8 +104,6 @@ RestoreWindowLayouts()
 {
   Try
   {
-    Log("Restoring window layouts...")
-
     WinGetActiveTitle, ActiveWindow
     Monitors := GetMonitors()
     GroupedText := []
@@ -110,11 +113,15 @@ RestoreWindowLayouts()
     Layouts := ParseWindowLayouts()
 
     ; Apply each layout to the corresponding windows
+    Log("`r`nRestoring window layouts...")
     For Index, Layout in Layouts
     {
+      Log("`r`n")
+
       ; Get the window(s) that this layout applies to
       Windows := GetWindowsForLayout(Layout)
 
+      Log("Restoring " . Windows.Length() . " windows...")
       For Index, Window in Windows
       {
         ; Restore the window's size and position
@@ -210,7 +217,7 @@ GetWindowsForLayout(Layout)
 {
   Windows := []
 
-  ; Some layouts apply to a specific window instance
+  ; If the layout has a winodw ID, then try to find that specific window
   If (Layout.ID)
   {
     If (WinExist("ahk_id " . Layout.ID))
@@ -220,22 +227,25 @@ GetWindowsForLayout(Layout)
       Log("Layout #" . Layout.ID . " will be applied to " . GetWindowDescription(Window))
     }
     Else
-    {
-      Log("!!!!! Layout #" . Layout.ID . " does not match any windows")
-    }
+      Log("!!!!! No windows have HWND #" . Layout.ID)
   }
-  Else If (Layout.Title)
-  {
-    ; Restore all windows with matching titles
-    WinTitle := Layout.Title
-    WinGet, WinIDs, List, %WinTitle%
-    Log(WinIDs . " windows match layout """ . Layout.Title . """")
 
-    Loop, %WinIDs%
-    {
-      Window := GetWindow(WinIDs%A_Index%)
-      Windows.Push(Window)
-    }
+  If (Layout.Title)
+  {
+    TitleWindows := GetWindowsByTitle(Layout.Title)
+    Windows := SubsetOf(Windows, TitleWindows)
+  }
+
+  If (Layout.Process)
+  {
+    ProcessWindows := GetWindowsByTitle("ahk_exe " . Layout.Process)
+    Windows := SubsetOf(Windows, ProcessWindows)
+  }
+
+  If (Layout.Class)
+  {
+    ClassWindows := GetWindowsByTitle("ahk_class " . Layout.Class)
+    Windows := SubsetOf(Windows, ClassWindows)
   }
 
   Return Windows
@@ -247,13 +257,6 @@ GetWindowsForLayout(Layout)
 IsValidWindowLayout(Window)
 {
   global MinimumWindowSize
-
-  ; Don't save windows with no title
-  If (StrLen(Window.Title) = 0)
-  {
-    Log("!!!!! Window #" . Window.ID . " has no title")
-    Return False
-  }
 
   ; Don't save windows that are too small
   If ((Window.Width < MinimumWindowSize) and (Window.Height < MinimumWindowSize))

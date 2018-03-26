@@ -31,6 +31,31 @@ GetWindows()
 
 
 
+; Returns all windows that match the specified title
+GetWindowsByTitle(Title)
+{
+  Windows := []
+
+  WinGet, WinIDs, List, %Title%
+
+  If (WinIDs = 0)
+    Log("!!!!! No windows match the title: " . Title)
+  Else
+  {
+    Log(WinIDs . " windows match title: " . Title)
+
+    Loop, %WinIDs%
+    {
+      Window := GetWindow(WinIDs%A_Index%)
+      Windows.Push(Window)
+    }
+  }
+
+  Return Windows
+}
+
+
+
 ; Returns an object containing detailed information about the specified window
 GetWindow(ID)
 {
@@ -250,14 +275,28 @@ IsSystemWindow(Window)
     Return True
   }
 
-  ; Cortana
-  If ((Window.Process = "SearchUI.exe") and (Window.Title = "Cortana"))
+  ; System tray
+  If ((Window.Process = "Explorer.EXE")
+  and ((Window.Class = "Shell_TrayWnd") or (Window.Class = "Shell_SecondaryTrayWnd")))
   {
     Return True
   }
 
   ; Desktop
-  If ((Window.Process = "Explorer.EXE") and (Window.Class = "WorkerW"))
+  If ((Window.Process = "Explorer.EXE")
+  and ((Window.Class = "WorkerW") or (Window.Class = "DesktopWallpaperManager")))
+  {
+    Return True
+  }
+
+  ; Windows input method selector
+  If ((Window.Process = "Explorer.EXE") and (Window.Class = "EdgeUiInputTopWndClass"))
+  {
+    Return True
+  }
+
+  ; Cortana
+  If ((Window.Process = "SearchUI.exe") and (Window.Title = "Cortana"))
   {
     Return True
   }
