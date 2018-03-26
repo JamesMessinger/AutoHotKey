@@ -1,8 +1,8 @@
 #
 # Dell Monitor
 #
-Monitor=2,State=NORMAL,Left=16,Top=0,Width=68,Height=100,Title=Visual Studio
-Monitor=2,State=NORMAL,Left=0,Top=0,Width=33,Height=100,Title=Command Prompt
+Monitor=2,State=NORMAL,Left=33,Top=0,Width=67,Height=100,Title=Visual Studio
+Monitor=2,State=NORMAL,Left=0,Top=0,Width=33,Height=100,Class=ConsoleWindowClass
 
 #
 # Laptop Screen
@@ -17,3 +17,5 @@ Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=80,Height=80,Title=Google Chrome
 Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=80,Height=80,Title=Sourcetree
 Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=80,Height=80,Title=Spotify
 
+# Sticky Notes
+Monitor=1,State=NORMAL,Left=1,Top=1,Width=20,Height=28,Process=Explorer.EXE,Class=ApplicationFrameWindow
