@@ -30,6 +30,28 @@ PercentageOf(Percent, Whole)
 
 
 
+; Determines whether two position values (height, width, top, or left) are near each other,
+; within a few pixels
+IsNear(a, b)
+{
+  Tolerance := 25
+
+  If ((a >= b) and (a - b < Tolerance))
+  {
+    Return True
+  }
+  Else If ((b > a) and (b - a < Tolerance))
+  {
+    Return True
+  }
+  Else
+  {
+    Return False
+  }
+}
+
+
+
 ; Returns the array item with the specified ID
 FindByID(Array, ID)
 {

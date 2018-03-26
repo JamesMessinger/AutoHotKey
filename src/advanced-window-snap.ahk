@@ -154,27 +154,3 @@ SnapWindow(Window, Layout, Monitors)
   SetWindowLayout(Window, Layout, Monitors)
 }
 
-
-
-
-; Determines whether two position values (height, width, top, or left) are near each other,
-; within a few pixels
-IsNear(x, y)
-{
-  Tolerance := 25
-
-  If ((x >= y) and (x - y < Tolerance))
-  {
-    Return True
-  }
-  Else If ((y > x) and (y - x < Tolerance))
-  {
-    Return True
-  }
-  Else
-  {
-    Return False
-  }
-}
-
-
