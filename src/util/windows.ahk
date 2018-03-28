@@ -195,11 +195,14 @@ GetAbsoluteWindowBounds(Window, Layout, Monitors)
   Height := PercentageOf(Layout.Height, Monitor.WorkArea.Height)
 
   ; Window borders (Windows 10)
-  SysGet, BorderWidth, 32
-  SysGet, BorderHeight, 33
-  Left := Left - BorderWidth
-  Width := Width + (BorderWidth * 2)
-  Height := Height + BorderHeight
+  If (WindowHasBorder(Window))
+  {
+    SysGet, BorderWidth, 32
+    SysGet, BorderHeight, 33
+    Left := Left - BorderWidth
+    Width := Width + (BorderWidth * 2)
+    Height := Height + BorderHeight
+  }
 
   Absolute := {}
   Absolute.Monitor := Monitor.ID
@@ -312,3 +315,22 @@ IsSystemWindow(Window)
 }
 
 
+
+; Determines whether the specified window has a Windows 10 border,
+; which affects its width and height calculations
+WindowHasBorder(Window)
+{
+  WindowsWithoutBorders := ["Microsoft Visual Studio", "Sourcetree", "Slack"]
+
+  For Index, Title in WindowsWithoutBorders
+  {
+    If (InStr(Window.Title, Title))
+    {
+      Log(Title . " does not have window borders")
+      Return False
+    }
+  }
+
+  Log(Window.Title . " has borders, which affects its height and width calculations")
+  Return True
+}
