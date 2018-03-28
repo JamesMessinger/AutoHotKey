@@ -6,8 +6,12 @@
 #!0::SaveWindowLayouts()
 
 
-; Ctrl+Win+0 to restore previously-saved window layouts
-#^0::RestoreWindowLayouts()
+; Ctrl+Win+0 to restore previously-saved window layout for the current window
+#^0::RestoreWindowLayouts("ACTIVE")
+
+
+; Ctrl+Shift+Win+0 to restore previously-saved layouts for ALL windows
+#+^0::RestoreWindowLayouts("ALL")
 
 
 
@@ -99,12 +103,12 @@ SaveWindowLayouts()
 
 
 
-; Restores the previously-saved sizes and positions of all windows
-RestoreWindowLayouts()
+; Restores the previously-saved sizes and positions of the specified windows
+RestoreWindowLayouts(WindowsToRestore)
 {
   Try
   {
-    WinGetActiveTitle, ActiveWindow
+    WinGet, ActiveWindowID, ID, A
     Monitors := GetMonitors()
     GroupedText := []
     TotalCount := 0
@@ -124,6 +128,12 @@ RestoreWindowLayouts()
       Log("Restoring " . Windows.Length() . " windows...")
       For Index, Window in Windows
       {
+        If ((WindowsToRestore = "ACTIVE") and (Window.ID != ActiveWindowID))
+        {
+          Log("Skipping inactive window #" . Window.ID . ": " . GetWindowDescription(Window))
+          Continue
+        }
+
         ; Restore the window's size and position
         SetWindowLayout(Window, Layout, Monitors)
 
@@ -140,16 +150,20 @@ RestoreWindowLayouts()
       }
     }
 
-    ; Restore window that was active at beginning of the function
-    WinActivate, %ActiveWindow%
+    ; Restore window that was active at begining of the function
+    ActiveWindowTitle := "ahk_id " . ActiveWindowID
+    WinActivate, %ActiveWindowTitle%
 
-    ; Display the text descriptions to the user
-    AllText := ""
-    For Index, Text in GroupedText
+    If (WindowsToRestore = "ALL")
     {
-      AllText := AllText . Text . "`r`n"
+      ; Display a list of all windows that were restored
+      AllText := ""
+      For Index, Text in GroupedText
+      {
+        AllText := AllText . Text . "`r`n"
+      }
+      Info(TotalCount . " windows restored.`r`n`r`n" . AllText)
     }
-    Info(TotalCount . " windows restored.`r`n`r`n" . AllText)
   }
   Catch Exception
   {
