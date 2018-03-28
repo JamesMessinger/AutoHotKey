@@ -1,0 +1,6 @@
+# Git file attributes
+# https://git-scm.com/docs/gitattributes
+
+# Use CRLF line endings for these files, so AutoHotKey will read them correctly
+*.txt       text eol=crlf
+*.ahk       text eol=crlf
