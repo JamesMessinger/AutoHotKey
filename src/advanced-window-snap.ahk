@@ -2,6 +2,14 @@
 ; Horizontal Window Snapping
 ; ========================================================================
 
+; Win+Arrow snaps windows to the left/right half
+#Left::SnapActiveWindow({ Left: 0, Top: 0, Width: 50, Height: 100 })
+#Right::SnapActiveWindow({ Left: 50, Top: 0, Width: 50, Height: 100 })
+#Down::SnapActiveWindow({ Left: 25, Top: 0, Width: 50, Height: 100 })
+
+; Win+Up maximizes the window
+#Up::SnapActiveWindow({ State: "MAXIMIZED", Left: 0, Top: 0, Width: 100, Height: 100 })
+
 ; Win+Alt+Arrow snaps windows to the left/middle/right third
 #!Left::SnapActiveWindow({ Left: 0, Top: 0, Width: 33, Height: 100 })
 #!Right::SnapActiveWindow({ Left: 67, Top: 0, Width: 33, Height: 100 })
