@@ -54,12 +54,15 @@
 ; Horizontal & Vertical Window Centering
 ; ========================================================================
 
-; Win+Enter centers the window, large
+; Win+Shift+Enter centers the window, two-thirds width
+#+Enter::SnapActiveWindow({ Left: 16, Top: 10, Width: 67, Height: 80 })
+
+; Win+Enter centers the window, half width
 #Enter::SnapActiveWindow({ Left: 25, Top: 10, Width: 50, Height: 80 })
 F24 & Enter::SnapActiveWindow({ Left: 25, Top: 10, Width: 50, Height: 80 })
 
-; Win+Alt+Enter centers the window, small
-#!Enter::SnapActiveWindow({ Left: 35, Top: 25, Width: 30, Height: 50 })
+; Win+Alt+Enter centers the window, one-third width
+#!Enter::SnapActiveWindow({ Left: 33, Top: 25, Width: 33, Height: 50 })
 
 
 
