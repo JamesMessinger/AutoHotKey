@@ -171,7 +171,8 @@ GetRelativeWindowBounds(Window, Monitor)
 
 
 
-; Calculates the window's bounds (top, left, width, height, etc.), from percentages
+; Calculates the window's absolute bounds (top, left, width, height, etc.),
+; given an absolute or percentage layout
 GetAbsoluteWindowBounds(Window, Layout, Monitors)
 {
   global MinimumWindowSize
@@ -181,27 +182,56 @@ GetAbsoluteWindowBounds(Window, Layout, Monitors)
     Window.Monitor := GetMonitorForWindow(Window, Monitors)
 
   ; Determine the new monitor
-  If (Layout.Monitor)
+  If (Layout.Monitor > 0)
     Monitor := FindByID(Monitors, Layout.Monitor)
   Else
     Monitor := Window.Monitor
 
-  ; Calculate the window postion on the monitor
-  Left := Monitor.Bounds.Left + PercentageOf(Layout.Left, Monitor.WorkArea.Width)
-  Top := Monitor.Bounds.Top + PercentageOf(Layout.Top, Monitor.WorkArea.Height)
-
-  ; Calculate the window size on this monitor
-  Width := PercentageOf(Layout.Width, Monitor.WorkArea.Width)
-  Height := PercentageOf(Layout.Height, Monitor.WorkArea.Height)
-
-  ; Window borders (Windows 10)
-  If (WindowHasBorder(Window))
+  If (Layout.Height > 100 and Layout.Width > 100)
   {
-    SysGet, BorderWidth, 32
-    SysGet, BorderHeight, 33
-    Left := Left - BorderWidth
-    Width := Width + (BorderWidth * 2)
-    Height := Height + BorderHeight
+    If (Monitor.ID != Window.Monitor)
+    {
+      ; Use the layout's absolute dimensions, but adjust the position to the new monitor
+      Log("BEFORE =================>>> "
+      . Layout.Width . " x " . Layout.Height . " at "
+      . Layout.Left . ", " . Layout.Top . " on monitor #" . Window.Monitor.ID)
+
+      ; The layout has absolute dimensions, so convert them to percentages
+      ; of the window's CURRENT monitor
+      Width := Layout.Width
+      Height := Layout.Height
+
+      CenterY := (Layout.Top + (Layout.Height / 2)) - Window.Monitor.WorkArea.Top
+      CenterY := Percentage(CenterY, Window.Monitor.WorkArea.Height)
+      Top := Monitor.WorkArea.Top + (PercentageOf(CenterY, Monitor.WorkArea.Height) - (Height / 2))
+
+      CenterX := (Layout.Left + (Layout.Width / 2)) - Window.Monitor.WorkArea.Left
+      CenterX := Percentage(CenterX, Window.Monitor.WorkArea.Width)
+      Left := Monitor.WorkArea.Left + (PercentageOf(CenterX, Monitor.WorkArea.Width) - (Width / 2))
+
+      Log("AFTER =================>>> "
+      . Width . " x " . Height . " at " . Left . ", " . Top)
+    }
+  }
+  Else
+  {
+    ; Calculate the window postion on the monitor
+    Left := Monitor.Bounds.Left + PercentageOf(Layout.Left, Monitor.WorkArea.Width)
+    Top := Monitor.Bounds.Top + PercentageOf(Layout.Top, Monitor.WorkArea.Height)
+
+    ; Calculate the window size on this monitor
+    Width := PercentageOf(Layout.Width, Monitor.WorkArea.Width)
+    Height := PercentageOf(Layout.Height, Monitor.WorkArea.Height)
+
+    ; Window borders (Windows 10)
+    If (WindowHasBorder(Window))
+    {
+      SysGet, BorderWidth, 32
+      SysGet, BorderHeight, 33
+      Left := Left - BorderWidth
+      Width := Width + (BorderWidth * 2)
+      Height := Height + BorderHeight
+    }
   }
 
   Absolute := {}
@@ -331,6 +361,6 @@ WindowHasBorder(Window)
     }
   }
 
-  Log(Window.Title . " has borders, which affects its height and width calculations")
+  Log("The window has borders, which affects its height and width calculations")
   Return True
 }

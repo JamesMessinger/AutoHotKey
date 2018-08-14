@@ -54,15 +54,15 @@
 ; Horizontal & Vertical Window Centering
 ; ========================================================================
 
-; Win+Shift+Enter centers the window, two-thirds width
-#+Enter::SnapActiveWindow({ Left: 16, Top: 10, Width: 67, Height: 80 })
+; Win+Shift+Enter centers the window, large
+#+Enter::CenterActiveWindow({ Width: 1600, Height: 1400 })
 
-; Win+Enter centers the window, half width
-#Enter::SnapActiveWindow({ Left: 25, Top: 10, Width: 50, Height: 80 })
-F24 & Enter::SnapActiveWindow({ Left: 25, Top: 10, Width: 50, Height: 80 })
+; Win+Enter centers the window, medium
+#Enter::CenterActiveWindow({ Width: 1300, Height: 1100 })
+F24 & Enter::CenterActiveWindow({ Width: 1300, Height: 1100 })
 
-; Win+Alt+Enter centers the window, one-third width
-#!Enter::SnapActiveWindow({ Left: 33, Top: 25, Width: 33, Height: 50 })
+; Win+Alt+Enter centers the window, small
+#!Enter::CenterActiveWindow({ Width: 1000, Height: 900 })
 
 
 
@@ -104,6 +104,36 @@ F24 & Enter::SnapActiveWindow({ Left: 25, Top: 10, Width: 50, Height: 80 })
 #NumpadPgDn::SnapActiveWindow({ Left: 33, Top: 33, Width: 67, Height: 67 })
 
 
+; Centers the active window, given absolute dimensions (not percentages)
+CenterActiveWindow(Layout)
+{
+  Try
+  {
+    Log("`r`nCentering active window to " . Layout.Width . " x " . Layout.Height)
+
+    ; Get the active window and its monitor
+    WinGet WindowID, ID, A
+    Window := GetWindow(WindowID)
+    Monitors := GetMonitors()
+    Monitor := GetMonitorForWindow(Window, Monitors)
+
+    ; Center the window on the monitor
+    Layout.Monitor := Monitor
+    Layout.Top := Floor(Monitor.WorkArea.Top + ((Monitor.WorkArea.Height - Layout.Height) / 2))
+    Layout.Left := Floor(Monitor.WorkArea.Left + ((Monitor.WorkArea.Width - Layout.Width) / 2))
+
+    Log("Centering active window to "
+    . Layout.Width . " x " . Layout.Height . " at "
+    . Layout.Left . ", " . Layout.Top)
+
+    SnapWindow(Window, Layout, Monitors)
+  }
+  Catch Exception
+  {
+    ErrorHandler(Exception)
+  }
+}
+
 
 ; Resizes and moves (snaps) the active window to the specified layout
 SnapActiveWindow(Layout)
@@ -118,12 +148,6 @@ SnapActiveWindow(Layout)
     WinGet WindowID, ID, A
     Window := GetWindow(WindowID)
     Log("Active window is " . GetWindowDescription(Window))
-
-    ; Don't snap system windows, such as the Desktop or Start Menu
-    If IsSystemWindow(Window) {
-      Log("!!!!! This is a system window, so it cannot be snapped")
-      Return
-    }
 
     ; Get all Monitors, and determine which one the window is currently on
     Monitors := GetMonitors()
@@ -141,6 +165,12 @@ SnapActiveWindow(Layout)
 ; Resizes and moves (snaps) the given window to the specified layout
 SnapWindow(Window, Layout, Monitors)
 {
+  ; Don't snap system windows, such as the Desktop or Start Menu
+  If IsSystemWindow(Window) {
+    Log("!!!!! This is a system window, so it cannot be snapped")
+    Return
+  }
+
   ; Calculate the absolute size to snap the window to
   NewLocation := GetAbsoluteWindowBounds(Window, Layout, Monitors)
 
@@ -164,4 +194,3 @@ SnapWindow(Window, Layout, Monitors)
   ; Move the window to the new layout
   SetWindowLayout(Window, Layout, Monitors)
 }
-

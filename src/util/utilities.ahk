@@ -60,7 +60,7 @@ SubsetOf(Superset, Subset)
 ; within a few pixels
 IsNear(a, b)
 {
-  Tolerance := 25
+  Tolerance := 50
 
   If ((a >= b) and (a - b < Tolerance))
   {
@@ -119,4 +119,3 @@ Log(Text)
     FileAppend, %Text%, logs\log_%A_Hour%%A_Min%.txt
   }
 }
-

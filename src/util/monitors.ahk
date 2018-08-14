@@ -85,7 +85,7 @@ GetMonitor(ID)
 ; Returns the monitor that the specified window is on
 GetMonitorForWindow(Window, Monitors)
 {
-  Log("Determining the current monitor for window #" . Window.ID)
+  Log("`r`nDetermining the current monitor for window #" . Window.ID)
 
   ; Calculate the center point of the window
   CenterX := Floor(Window.Left + (Window.Width / 2))
@@ -154,5 +154,3 @@ GetNextMonitor(CurrentMonitor, Monitors)
     }
   }
 }
-
-
