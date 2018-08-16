@@ -55,7 +55,7 @@
 ; ========================================================================
 
 ; Win+Shift+Enter centers the window, large
-#+Enter::CenterActiveWindow({ Width: 1600, Height: 1400 })
+#+Enter::CenterActiveWindow({ Width: 1800, Height: 1400 })
 
 ; Win+Enter centers the window, medium
 #Enter::CenterActiveWindow({ Width: 1300, Height: 1100 })
