@@ -103,7 +103,7 @@ To get these scripts working on your computer, follow these steps:
 You can [download it here](https://www.autohotkey.com/download/)
 
 2. __Clone this repo__<br>
-`git clone https://github.com/bigstickcarpet/AutoHotKey.git`
+`git clone https://github.com/James-Messinger/AutoHotKey.git`
 
 3. __Create an `AutoHotKey.ahk` file__<br>
 When AutoHotKey starts up, it looks for a file named `AutoHotKey.ahk` in your Documents folder.  So create a file by that name, and point it to where you cloned this repo in Step 2.
@@ -121,4 +121,3 @@ Create a shortcut to AutoHotKey (`C:\Program Files\AutoHotkey\AutoHotkey.exe`). 
 License
 ------------------------------------
 All of these scripts are [MIT licensed](http://opensource.org/licenses/MIT) and can be used however you want.  [AutoHotKey](https://www.autohotkey.com/) is [open-source](https://github.com/Lexikos/AutoHotkey_L) too!
-
