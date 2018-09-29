@@ -1,7 +1,7 @@
 #
 # Laptop Screen
 #
-Monitor=1,State=NORMAL,Left=0,Top=0,Width=78,Height=100,Title=Slack
+Monitor=1,State=MAXIMIZED,Left=0,Top=0,Width=78,Height=100,Title=Slack
 Monitor=1,State=NORMAL,Left=78,Top=0,Width=22,Height=100,Title=Twitter
 Monitor=1,State=NORMAL,Left=78,Top=50,Width=22,Height=50,Title=Messenger
 
@@ -13,4 +13,3 @@ Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=80,Height=80,Title=Sourcetree
 Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=80,Height=80,Title=OneNote
 Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=80,Height=80,Title=Calendar
 Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=80,Height=80,Title=Spotify
-
