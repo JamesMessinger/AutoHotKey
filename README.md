@@ -103,7 +103,7 @@ To get these scripts working on your computer, follow these steps:
 You can [download it here](https://www.autohotkey.com/download/)
 
 2. __Clone this repo__<br>
-`git clone https://github.com/James-Messinger/AutoHotKey.git`
+`git clone https://github.com/JamesMessinger/AutoHotKey.git`
 
 3. __Create an `AutoHotKey.ahk` file__<br>
 When AutoHotKey starts up, it looks for a file named `AutoHotKey.ahk` in your Documents folder.  So create a file by that name, and point it to where you cloned this repo in Step 2.
