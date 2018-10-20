@@ -229,7 +229,7 @@ GetAbsoluteWindowBounds(Window, Layout, Monitors)
       SysGet, BorderWidth, 32
       SysGet, BorderHeight, 33
       Left := Left - BorderWidth
-      Width := Width + (BorderWidth * 2)
+      Width := Width + (BorderWidth * 1.5)
       Height := Height + BorderHeight
     }
   }
