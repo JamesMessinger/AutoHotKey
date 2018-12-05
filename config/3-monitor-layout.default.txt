@@ -10,13 +10,13 @@ Monitor=2,State=NORMAL,Left=30,Top=30,Width=30,Height=45,Title=Sublime Text
 #
 Monitor=3,State=NORMAL,Left=0,Top=0,Width=100,Height=59,Title=Google Chrome
 Monitor=3,State=NORMAL,Left=0,Top=60,Width=100,Height=40,Title=Sourcetree
-Monitor=3,State=NORMAL,Left=0,Top=60,Width=100,Height=40,Title=OneNote
 Monitor=3,State=NORMAL,Left=0,Top=60,Width=100,Height=40,Title=Calendar
 Monitor=3,State=NORMAL,Left=0,Top=60,Width=100,Height=40,Title=Spotify
 
 #
 # Laptop Screen
 #
+Monitor=1,State=MAXIMIZED,Left=0,Top=0,Width=100,Height=100,Title=OneNote
 Monitor=1,State=MAXIMIZED,Left=0,Top=0,Width=100,Height=100,Title=Postman
 Monitor=1,State=MAXIMIZED,Left=0,Top=0,Width=100,Height=100,Title=Slack
 Monitor=1,State=NORMAL,Left=78,Top=0,Width=22,Height=100,Title=Twitter

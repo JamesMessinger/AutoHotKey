@@ -8,16 +8,16 @@ Monitor=2,State=NORMAL,Left=30,Top=30,Width=30,Height=45,Title=Sublime Text
 #
 # Laptop Screen
 #
-Monitor=1,State=MAXIMIZED,Left=0,Top=0,Width=78,Height=100,Title=Slack
+Monitor=1,State=MAXIMIZED,Left=0,Top=0,Width=100,Height=100,Title=Slack
 Monitor=1,State=NORMAL,Left=78,Top=0,Width=22,Height=100,Title=Twitter
 
 Monitor=1,State=NORMAL,Left=31,Top=41,Width=46,Height=59,Title=Messenger
 Monitor=1,State=NORMAL,Left=23,Top=21,Width=52,Height=56,Title=AirDroid
 
-Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=80,Height=80,Title=Google Chrome
-Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=80,Height=80,Title=Sourcetree
-Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=80,Height=80,Title=Spotify
-Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=80,Height=80,Title=Postman
+Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=100,Height=100,Title=Google Chrome
+Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=100,Height=100,Title=Sourcetree
+Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=100,Height=100,Title=Spotify
+Monitor=1,State=MAXIMIZED,Left=10,Top=10,Width=100,Height=100,Title=Postman
 
 # Sticky Notes
 Monitor=1,State=NORMAL,Left=1,Top=1,Width=20,Height=28,Process=Explorer.EXE,Class=ApplicationFrameWindow
