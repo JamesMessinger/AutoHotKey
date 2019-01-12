@@ -192,9 +192,9 @@ GetAbsoluteWindowBounds(Window, Layout, Monitors)
     If (Monitor.ID != Window.Monitor)
     {
       ; Use the layout's absolute dimensions, but adjust the position to the new monitor
-      Log("BEFORE =================>>> "
-      . Layout.Width . " x " . Layout.Height . " at "
-      . Layout.Left . ", " . Layout.Top . " on monitor #" . Window.Monitor.ID)
+      ; Log("BEFORE =================>>> "
+      ; . Layout.Width . " x " . Layout.Height . " at "
+      ; . Layout.Left . ", " . Layout.Top . " on monitor #" . Window.Monitor.ID)
 
       ; The layout has absolute dimensions, so convert them to percentages
       ; of the window's CURRENT monitor
@@ -209,8 +209,8 @@ GetAbsoluteWindowBounds(Window, Layout, Monitors)
       CenterX := Percentage(CenterX, Window.Monitor.WorkArea.Width)
       Left := Monitor.WorkArea.Left + (PercentageOf(CenterX, Monitor.WorkArea.Width) - (Width / 2))
 
-      Log("AFTER =================>>> "
-      . Width . " x " . Height . " at " . Left . ", " . Top)
+      ; Log("AFTER =================>>> "
+      ; . Width . " x " . Height . " at " . Left . ", " . Top)
     }
   }
   Else
@@ -228,9 +228,18 @@ GetAbsoluteWindowBounds(Window, Layout, Monitors)
     {
       SysGet, BorderWidth, 32
       SysGet, BorderHeight, 33
-      Left := Left - BorderWidth
-      Width := Width + (BorderWidth * 1.5)
-      Height := Height + BorderHeight
+      NewLeft := Floor(Left - BorderWidth)
+      NewWidth := Floor(Width + (BorderWidth * 1.5))
+      NewHeight := Floor(Height + BorderHeight)
+
+      Log("Adjusting for window borders:`r`n"
+        . "Left: " . Floor(Left) . " - " . BorderWidth . " = " . NewLeft . "`r`n"
+        . "Width: " . Floor(Width) . " + " . (BorderWidth * 1.5) . " = " . NewWidth . "`r`n"
+        . "Height: " . Floor(Height) . " + " . BorderHeight . " = " . NewHeight . "`r`n")
+
+      Left := NewLeft
+      Width := NewWidth
+      Height := NewHeight
     }
   }
 
@@ -286,8 +295,26 @@ SetWindowLayout(Window, Layout, Monitors)
     Window.Monitor := FindByID(Monitors, NewLocation.Monitor)
   }
 
-  ; Position and resize the window
-  WinMove, %Title%, , NewLocation.Left, NewLocation.Top, NewLocation.Width, NewLocation.Height
+  IsVerticalMonitor := Window.Monitor.WorkArea.Height > Window.Monitor.WorkArea.Width
+  IsDockingToBottom := (NewLocation.Top + NewLocation.Height) >= Window.Monitor.WorkArea.Height
+  IsDockingToLeft := NewLocation.Left <= (Window.Monitor.WorkArea.Left + 25)
+
+  If (IsVerticalMonitor and IsDockingToBottom and IsDockingToLeft)
+  {
+    ; HACK: This is a hacky workaround for a weird bug that only happens when docking a window
+    ; to the bottom left of my vertical monitor. For some reason, WinMove adds 468 pixels to the
+    ; window height. I've tried everything I can think of, and can't figure out why. So the only
+    ; workaround I've found is reduce the height by 468 pixels to compensate.
+    Log("HACK - The window is being docked to the bottom of a vertical monitor, "
+      . "so the height was reduced by 468px to compensate for an AutoHotKey bug")
+
+    WinMove, %Title%, , NewLocation.Left, NewLocation.Top, NewLocation.Width, (NewLocation.Height - 468)
+  }
+  Else
+  {
+    ; Position and resize the window
+    WinMove, %Title%, , NewLocation.Left, NewLocation.Top, NewLocation.Width, NewLocation.Height
+  }
 
   ; Set the window's minimized/maximized state, if necessary
   If (Layout.State = "MAXIMIZED")
