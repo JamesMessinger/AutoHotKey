@@ -16,7 +16,6 @@ MinimumWindowSize := 100
 
 #Include src\remap-keys.ahk
 #Include src\advanced-window-snap.ahk
-#Include src\restore-window-layout.ahk
 #Include src\always-on-top.ahk
 #Include src\util\utilities.ahk
 #Include src\util\windows.ahk
