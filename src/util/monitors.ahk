@@ -2,15 +2,15 @@
 ; Utility functions for monitors
 ; ========================================================================
 
+
 ; Returns detailed information about ALL monitors
 GetMonitors()
 {
   Monitors := []
 
   ; Add the primory monitor FIRST
-  SysGet, PrimaryMonitorID, MonitorPrimary
-  Monitor := GetMonitor(PrimaryMonitorID)
-  Monitors.Push(Monitor)
+  PrimaryMonitor := GetPrimaryMonitor()
+  Monitors.Push(PrimaryMonitor)
 
   ; Add all other monitors in numeric order
   SysGet, MonitorCount, MonitorCount
@@ -18,7 +18,7 @@ GetMonitors()
   {
     MonitorID := A_Index
 
-    If (MonitorID != PrimaryMonitorID)
+    If (MonitorID != PrimaryMonitor.ID)
     {
       Monitor := GetMonitor(MonitorID)
       Monitors.Push(Monitor)
@@ -26,6 +26,16 @@ GetMonitors()
   }
 
   Return Monitors
+}
+
+
+
+; Returns the system's primary monitor
+GetPrimaryMonitor()
+{
+  SysGet, PrimaryMonitorID, MonitorPrimary
+  Monitor := GetMonitor(PrimaryMonitorID)
+  Return Monitor
 }
 
 
@@ -59,7 +69,7 @@ GetMonitor(ID)
   Monitor.WorkArea.Width := WorkAreaRight - WorkAreaLeft
   Monitor.WorkArea.Height := WorkAreaBottom - WorkAreaTop
 
-  Log("========== " . "Monitor #" . Monitor.ID . " ==========`r`n"
+  Log("========== Monitor #" . Monitor.ID . " ==========`r`n"
     . "Name: " . Monitor.Name . "`r`n"
     . "Primary: " . (Monitor.IsPrimary ? "yes" : "no") . "`r`n"
     . "Bounds:`r`n"
@@ -82,23 +92,46 @@ GetMonitor(ID)
 
 
 
-; Returns the monitor that the specified window is on
-GetMonitorForWindow(Window, Monitors)
+; Returns the NEXT monitor in the list, or the first monitor
+GetNextMonitor(CurrentMonitor, Monitors)
 {
-  Log("`r`nDetermining the current monitor for window #" . Window.ID)
+  For Index, Monitor In Monitors
+  {
+    If (Monitor.ID = CurrentMonitor.ID)
+    {
+      NextMonitor := Monitors[Index + 1]
+      If (NextMonitor)
+        Return NextMonitor
+      Else
+        Return Monitors[1]
+    }
+  }
 
-  ; Calculate the center point of the window
-  CenterX := Floor(Window.Left + (Window.Width / 2))
-  CenterY := Floor(Window.Top + (Window.Height / 2))
+  Log("!!!!! Unable to determine the next monitor")
+  Return Monitors[1]
+}
+
+
+
+; Returns the monitor that contains the majority of the specified rectangle
+GetMonitorByRect(Left, Top, Width, Height, Monitors)
+{
+  ; Calculate the center point of the rect
+  CenterX := Floor(Left + (Width / 2))
+  CenterY := Floor(Top + (Height / 2))
+
+  ; Calculate the bottom and right of the rect
+  Bottom := Top + Height
+  Right := Left + Width
 
   ; Try to find the monitor that contains the center point.
-  ; If that fails, then find the first monitor that contains a corner of the window
+  ; If that fails, then find the first monitor that contains a corner of the rect
   Points := []
   Points.Push({ X: CenterX, Y: CenterY })
-  Points.Push({ X: Window.Left, Y: Window.Top })
-  Points.Push({ X: Window.Right, Y: Window.Top })
-  Points.Push({ X: Window.Left, Y: Window.Bottom })
-  Points.Push({ X: Window.Right, Y: Window.Bottom })
+  Points.Push({ X: Left, Y: Top })
+  Points.Push({ X: Right, Y: Top })
+  Points.Push({ X: Left, Y: Bottom })
+  Points.Push({ X: Right, Y: Bottom })
 
   For Index, Point in Points
   {
@@ -132,25 +165,4 @@ GetMonitorForPoint(X, Y, Monitors)
   }
 
   Log("No monitor contains the point " . X . ", " . Y)
-}
-
-
-
-; Returns the NEXT monitor in the list, or the first monitor
-GetNextMonitor(CurrentMonitor, Monitors)
-{
-  If (CurrentMonitor.ID)
-    CurrentMonitor := CurrentMonitor.ID
-
-  For Index, Monitor In Monitors
-  {
-    If (Monitor.ID = CurrentMonitor)
-    {
-      NextMonitor := Monitors[Index + 1]
-      If (NextMonitor)
-        Return NextMonitor
-      Else
-        Return Monitors[1]
-    }
-  }
 }
