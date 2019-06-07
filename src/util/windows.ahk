@@ -182,22 +182,7 @@ SetWindowLayout(Window, Layout, Monitors)
     WinMove, %Title%, , Left, Top, Width, Height
   }
 
-  IsVerticalMonitor := Window.Monitor.Bounds.Height > Window.Monitor.Bounds.Width
-  IsDockingToBottom := (Top + Height) >= Window.Monitor.WorkArea.Height
-  IsDockingToLeft := Left <= (Window.Monitor.WorkArea.Left + 25)
-
-  If (IsVerticalMonitor and IsDockingToBottom and IsDockingToLeft)
-  {
-    ; HACK: This is a hacky workaround for a weird bug that only happens when docking a window
-    ; to the bottom left of my vertical monitor. For some reason, WinMove adds 468 pixels to the
-    ; window height. I've tried everything I can think of, and can't figure out why. So the only
-    ; workaround I've found is reduce the height by 468 pixels to compensate.
-    Log("HACK - The window is being docked to the bottom of a vertical monitor, "
-      . "so the height was reduced by 468px to compensate for an AutoHotKey bug")
-
-    WinMove, %Title%, , Left, Top, Width, (Height - 468)
-  }
-  Else
+  If (!ApplyVerticalMonitorHack(Window, Title, Left, Top, Width, Height))
   {
     ; Position and resize the window
     WinMove, %Title%, , Left, Top, Width, Height
@@ -396,4 +381,30 @@ IsSystemWindow(Window)
 
   ; Doesn't seem to be a system window
   Return False
+}
+
+
+
+; HACK: This is a hacky workaround for a weird bug that only happens when docking a window
+; to the bottom left of my vertical monitor. For some reason, WinMove adds 468 pixels to the
+; window height. I've tried everything I can think of, and can't figure out why. So the only
+; workaround I've found is reduce the height by 468 pixels to compensate.
+ApplyVerticalMonitorHack(Window, Title, Left, Top, Width, Height)
+{
+  IsVerticalMonitor := Window.Monitor.Bounds.Height > Window.Monitor.Bounds.Width
+  IsDockingToBottom := (Top + Height) >= Window.Monitor.WorkArea.Height
+  IsDockingToLeft := Left <= (Window.Monitor.WorkArea.Left + 25)
+
+  If (IsVerticalMonitor and IsDockingToBottom and IsDockingToLeft)
+  {
+    Log("HACK - The window is being docked to the bottom of a vertical monitor, "
+      . "so the height was reduced by 468px to compensate for an AutoHotKey bug")
+
+    WinMove, %Title%, , Left, Top, Width, (Height - 468)
+    Return True
+  }
+  Else
+  {
+    Return False
+  }
 }
