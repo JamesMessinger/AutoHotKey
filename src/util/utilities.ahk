@@ -81,13 +81,37 @@ Info(Message)
 ; Writes the given text to a log file, if logging is enabled
 Log(Text)
 {
-  global LoggingEnabled
-
-  If (LoggingEnabled)
+  Try
   {
-    Text := Text . "`r`n"
-    FileCreateDir, logs
-    FileAppend, %Text%, logs\log_%A_Hour%%A_Min%.txt
+    global LoggingEnabled
+
+    If (LoggingEnabled)
+    {
+      Text := Text . "`r`n"
+      FileCreateDir, logs
+      FileAppend, %Text%, logs\log.txt
+    }
+  }
+  Catch Exception
+  {
+    Message := "Error while writing to the log file: " . Exception.Message
+    MsgBox, 16, AutoHotKey, %Message%
+  }
+}
+
+
+
+; Creates a new log file
+NewLog()
+{
+  Try
+  {
+    FileMove, logs\log.txt, logs\log_%A_Hour%%A_Min%.txt, 1
+  }
+  Catch Exception
+  {
+    Message := "Error while creating a new log file: " . Exception.Message
+    MsgBox, 16, AutoHotKey, %Message%
   }
 }
 
