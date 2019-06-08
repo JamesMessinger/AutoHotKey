@@ -10,6 +10,13 @@ IsEmptyString(String)
 }
 
 
+; Determines whether the given value is an Array
+IsArray(Value)
+{
+  Return IsObject(Value) and Value.MaxIndex() != ""
+}
+
+
 
 ; Returns the array item with the specified ID
 FindByID(Array, ID)
@@ -34,7 +41,7 @@ SubsetOf(Superset, Subset)
 
   For Index, SubItem in Subset
   {
-    For Index, SuperItem in Superset
+    For Index2, SuperItem in Superset
     {
       If (SuperItem.ID = SubItem.ID)
       {

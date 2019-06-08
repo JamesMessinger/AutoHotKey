@@ -69,9 +69,12 @@ GetMonitor(ID)
   Monitor.WorkArea.Width := WorkAreaRight - WorkAreaLeft
   Monitor.WorkArea.Height := WorkAreaBottom - WorkAreaTop
 
+  Monitor.Type := IsLaptopMonitor(Monitor) ? "LAPTOP" : GetOrientation(Monitor)
+
   Log("========== Monitor #" . Monitor.ID . " ==========`r`n"
     . "Name: " . Monitor.Name . "`r`n"
     . "Primary: " . (Monitor.IsPrimary ? "yes" : "no") . "`r`n"
+    . "Type: " . Monitor.Type . "`r`n"
     . "Bounds:`r`n"
     . "  Left: " . Monitor.Bounds.Left . "`r`n"
     . "  Right: " . Monitor.Bounds.Right . "`r`n"
@@ -137,10 +140,7 @@ GetMonitorByRect(Left, Top, Width, Height, Monitors)
   {
     Monitor := GetMonitorForPoint(Point.X, Point.Y, Monitors)
     If (Monitor)
-    {
-      Log("The window is on monitor #" . Monitor.ID)
       Return Monitor
-    }
   }
 
   Log("!!!!! Unable to find the window's monitor")
@@ -165,4 +165,83 @@ GetMonitorForPoint(X, Y, Monitors)
   }
 
   Log("No monitor contains the point " . X . ", " . Y)
+}
+
+
+
+; Returns the given monitor's orientation
+GetOrientation(Monitor)
+{
+  If (Monitor.Bounds.Height > Monitor.Bounds.Width)
+    Return "VERTICAL"
+  Else
+    Return "HORIZONTAL"
+}
+
+
+
+; Determines whether the given monitor is the built-in laptop screen
+IsLaptopMonitor(Monitor)
+{
+  Return (Monitor.Bounds.Width = 2314 and Monitor.Bounds.Height = 1543)
+    or (Monitor.Bounds.Width = 3240 and Monitor.Bounds.Height = 2160)
+}
+
+
+
+; Returns the Monitor for the built-in laptop screen
+FindLaptopMonitor(Monitors)
+{
+  For Index, Monitor in Monitors
+  {
+    If (IsLaptopMonitor(Monitor))
+    {
+      Log("The laptop screen is monitor #" . Monitor.ID
+        . " (" . Monitor.Bounds.Width . " x " . Monitor.Bounds.Height . ")")
+      Return Monitor
+    }
+  }
+
+  Log("The laptop screen is closed")
+}
+
+
+
+; Returns the first horizontal Monitor in the list
+FindHorizontalMonitor(Monitors, Exclude := "")
+{
+  Exclude := Exclude ? Exclude : { ID: "" }
+
+  For Index, Monitor in Monitors
+  {
+    If (Monitor.ID = Exclude.ID)
+      Continue
+
+    If (GetOrientation(Monitor) = "HORIZONTAL")
+    {
+      Log("The horizontal screen is monitor #" . Monitor.ID
+        . " (" . Monitor.Bounds.Width . " x " . Monitor.Bounds.Height . ")")
+      Return Monitor
+    }
+  }
+
+  Log("There is no horizontal monitor connected")
+}
+
+
+
+; Returns the first vertical monitor in the list
+FindVerticalMonitor(Monitors)
+{
+  For Index, Monitor in Monitors
+  {
+    If (GetOrientation(Monitor) = "VERTICAL")
+    {
+      Log("The vertical screen is monitor #" . Monitor.ID
+        . " (" . Monitor.Bounds.Width . " x " . Monitor.Bounds.Height . ")")
+      Return Monitor
+    }
+  }
+
+  Log("There is no vertical monitor connected")
 }

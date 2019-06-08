@@ -51,22 +51,6 @@
 
 
 ; ========================================================================
-; Horizontal & Vertical Window Centering
-; ========================================================================
-
-; Win+Shift+Enter centers the window, large
-; #+Enter::SnapActiveWindow({ Width: 1800, Height: 1400 })
-
-; Win+Enter centers the window, medium
-; #Enter::SnapActiveWindow({ Width: 1300, Height: 1100 })
-; F24 & Enter::SnapActiveWindow({ Width: 1300, Height: 1100 })
-
-; Win+Alt+Enter centers the window, small
-; #!Enter::SnapActiveWindow({ Width: 1000, Height: 900 })
-
-
-
-; ========================================================================
 ; Nuber Pad Window Snapping
 ; ========================================================================
 

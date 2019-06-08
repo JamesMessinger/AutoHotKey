@@ -4,8 +4,9 @@
 
 SendMode Input                ; Recommended for new scripts due to its superior speed and reliability.
 SetTitleMatchMode, 2          ; 1: starts with    2: contains
-SetTitleMatchMode, Fast       ; Fast is default
-DetectHiddenWindows, Off      ; Off is default
+SetTitleMatchMode, Fast
+DetectHiddenWindows, Off
+DetectHiddenText, On
 
 ; Enable/Disable logging
 LoggingEnabled := False
@@ -15,8 +16,10 @@ LoggingEnabled := False
 MinimumWindowSize := 100
 
 #Include src\remap-keys.ahk
-#Include src\advanced-window-snap.ahk
 #Include src\always-on-top.ahk
+#Include src\advanced-window-snap.ahk
+#Include src\smart-window-layout.ahk
+#Include src\util\smart-window-layout-helpers.ahk
 #Include src\util\utilities.ahk
 #Include src\util\windows.ahk
 #Include src\util\monitors.ahk

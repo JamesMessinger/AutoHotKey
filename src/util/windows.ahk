@@ -9,8 +9,8 @@ GetWindows(Monitors)
   Windows := []
 
   ; Add the active window FIRST
-  Window := GetActiveWindow(Monitors)
-  Windows.Push(Window)
+  ActiveWindow := GetActiveWindow(Monitors)
+  Windows.Push(ActiveWindow)
 
   ; Add all other windows
   WinGet, WinIDs, List, , , Program Manager
@@ -18,34 +18,9 @@ GetWindows(Monitors)
   {
     WindowID := WinIDs%A_Index%
 
-    If (WindowID != ActiveWindowID)
+    If (WindowID != ActiveWindow.ID)
     {
       Window := GetWindow(WindowID, Monitors)
-      Windows.Push(Window)
-    }
-  }
-
-  Return Windows
-}
-
-
-
-; Returns all windows that match the specified title
-GetWindowsByTitle(Title, Monitors)
-{
-  Windows := []
-
-  WinGet, WinIDs, List, %Title%
-
-  If (WinIDs = 0)
-    Log("!!!!! No windows match the title: " . Title)
-  Else
-  {
-    Log(WinIDs . " windows match title: " . Title)
-
-    Loop, %WinIDs%
-    {
-      Window := GetWindow(WinIDs%A_Index%, Monitors)
       Windows.Push(Window)
     }
   }
@@ -59,6 +34,7 @@ GetWindowsByTitle(Title, Monitors)
 GetWindow(ID, Monitors)
 {
   WinGetTitle, Title, ahk_id %ID%
+  WinGetText, Text, ahk_id %ID%
   WinGetClass, Class, ahk_id %ID%
   WinGet, State, MinMax, ahk_id %ID%
   WinGet, Process, ProcessName, ahk_id %ID%
@@ -74,6 +50,7 @@ GetWindow(ID, Monitors)
   Window := {}
   Window.ID := ID
   Window.Title := Title
+  Window.Text := Text
   Window.Class := Class
   Window.Process := Process
   Window.Monitor := Monitor
@@ -108,13 +85,14 @@ GetWindow(ID, Monitors)
 
   Log("========== Window #" . Window.ID . " ==========`r`n"
     . "Title: " . Window.Title . "`r`n"
+    . "Text: " . Window.Text . "`r`n"
     . "Class: " . Window.Class . "`r`n"
     . "Process: " . Window.Process . "`r`n"
     . "State: " . Window.State . "`r`n"
     . "Transparency: " . Window.Transparency . "`r`n"
     . "System Window: " . (IsSystemWindow(Window) ? "yes" : "no") . "`r`n"
     . "Monitor: " . Window.Monitor.ID . "`r`n"
-    . "Bounds:`r`n"
+    . "Position:`r`n"
     . "  Left: " . Window.Left . "`r`n"
     . "  Right: " . Window.Right . "`r`n"
     . "  Top: " . Window.Top . "`r`n"
@@ -137,6 +115,39 @@ GetActiveWindow(Monitors)
 
 
 
+; Returns all windows that match the specified title(s)
+FindWindowsByTitles(Windows, Titles, Exclude := "")
+{
+  Matches := []
+  CaseSensitive := true
+
+  For Index, Window in Windows
+  {
+    For Index2, Title in Exclude
+    {
+      If (InStr(Window.Title, Title, CaseSensitive) or InStr(Window.Text, Title, CaseSensitive))
+      {
+        Continue 2
+      }
+    }
+
+    For Index2, Title in Titles
+    {
+      If (Title = "Explorer" and IsExplorerWindow(Window))
+        Matches.Push(Window)
+      Else If (Title = "Spotify" and IsSpotifyWindow(Window))
+        Matches.Push(Window)
+      Else If (InStr(Window.Title, Title, CaseSensitive) or InStr(Window.Text, Title, CaseSensitive))
+        Matches.Push(Window)
+    }
+  }
+
+  If (Matches.Length() > 0)
+    Return Matches
+}
+
+
+
 ; Sets a window's size and position to the specified layout
 SetWindowLayout(Window, Layout, Monitors)
 {
@@ -145,33 +156,57 @@ SetWindowLayout(Window, Layout, Monitors)
   ; Calculate the absolute size & position to move the window to
   NewLocation := GetAbsoluteLayout(Window, Layout)
 
-  Log("Current Monitor: " . Window.Monitor.ID . "`r`n"
-    . "Current Dimensions:" . "`r`n"
-    . "  Left: " . Window.Left . "`r`n"
-    . "  Top: " . Window.Top . "`r`n"
-    . "  Width: " . Window.Width . "`r`n"
-    . "  Height: " . Window.Height . "`r`n"
-    . "`r`n"
-    . "New Monitor: " . NewLocation.Monitor.ID . "`r`n"
-    . "New Dimensions:" . "`r`n"
-    . "  Left: " . NewLocation.Left . "`r`n"
-    . "  Top: " . NewLocation.Top . "`r`n"
-    . "  Width: " . NewLocation.Width . "`r`n"
-    . "  Height: " . NewLocation.Height . "`r`n")
+  Log("Current Monitor: " . Window.Monitor.ID
+     . "`r`nCurrent Dimensions:"
+     . "`r`n  Monitor: " . Window.Monitor.ID
+     . "`r`n  Left: " . Window.Left
+     . "`r`n  Top: " . Window.Top
+     . "`r`n  Width: " . Window.Width
+     . "`r`n  Height: " . Window.Height
+     . "`r`n  State: " . Window.State
+     . "`r`n"
+     . "`r`nNew Monitor: " . NewLocation.Monitor.ID
+     . "`r`nNew Dimensions:"
+     . "`r`n  Monitor: " . NewLocation.Monitor.ID
+     . "`r`n  Left: " . NewLocation.Left
+     . "`r`n  Top: " . NewLocation.Top
+     . "`r`n  Width: " . NewLocation.Width
+     . "`r`n  Height: " . NewLocation.Height
+     . "`r`n  State: " . NewLocation.State
+    . "`r`n")
 
-  Title := "ahk_id " . Window.ID
+  ID := "ahk_id " . Window.ID
   Monitor := NewLocation.Monitor
+  State := Layout.State
   Width := NewLocation.Width
   Height := NewLocation.Height
-  Left := NewLocation.Left + Monitor.Bounds.Left
-  Top := NewLocation.Top + Monitor.Bounds.Top
-  State := Layout.State
+  Left := NewLocation.Left
+  Top := NewLocation.Top
+
+  If (State = "MAXIMIZED")
+  {
+    Width := Floor(Width * .5)
+    Height := Floor(Height * .75)
+    Left := Floor(Monitor.WorkArea.Width * .25)
+    Top := Floor(Monitor.WorkArea.Height * .125)
+
+    Log("`r`nThe window will be maximized, but when un-maximized, it will be:"
+      . "`r`n  Width: " . Width
+      . "`r`n  Height: " . Height
+      . "`r`n  Left: " . Left
+      . "`r`n  Top: " . Top
+      . "`r`n")
+  }
+
+  Left := Left + Monitor.Bounds.Left
+  Top := Top + Monitor.Bounds.Top
+
 
   ; If the window is currently minimized or maximized, then restore it first,
   ; so we can resize and position it
-  If (Window.State != "NORMAL")
+  If (Window.State != State)
   {
-    WinRestore %Title%
+    WinRestore %ID%
   }
 
   ; If the window is moving to a new monitor, then we need to resize it TWICE
@@ -179,20 +214,20 @@ SetWindowLayout(Window, Layout, Monitors)
   If (Monitor.ID != Window.Monitor.ID)
   {
     Log("The window has been moved to a new monitor. Adjusting for DPI differences")
-    WinMove, %Title%, , Left, Top, Width, Height
+    WinMove, %ID%, , Left, Top, Width, Height
   }
 
-  If (!ApplyVerticalMonitorHack(Window, Title, Left, Top, Width, Height))
+  If (!ApplyVerticalMonitorHack(Window, ID, Left, Top, Width, Height))
   {
     ; Position and resize the window
-    WinMove, %Title%, , Left, Top, Width, Height
+    WinMove, %ID%, , Left, Top, Width, Height
   }
 
   ; Set the window's minimized/maximized state, if necessary
   If (State = "MAXIMIZED")
-    WinMaximize, %Title%
+    WinMaximize, %ID%
   Else If (State = "MINIMIZED")
-    WinMinimize, %Title%
+    WinMinimize, %ID%
   Else
     State := "NORMAL"
 
@@ -279,22 +314,30 @@ GetAbsoluteLayout(Window, Layout)
 ; Returns a user-friendly description of the window
 WindowToString(Window)
 {
-  If IsEmptyString(Window.Title)
-    Description := Window.Process . ": " . Window.Class
-  Else If InStr(Window.Title, "Sublime Text")
+  Title := Window.Title
+  If IsEmptyString(Title)
+    Title := Window.Text
+
+  If IsExplorerWindow(Window)
+    Description := "Windows Explorer"
+  Else If IsSpotifyWindow(Window)
+    Description := "Spotify"
+  Else If InStr(Title, "Sublime Text")
     Description := "Sublime Text"
-  Else If InStr(Window.Title, "Slack - ")
+  Else If InStr(Title, "Slack - ")
     Description := "Slack"
-  Else If InStr(Window.Title, "OneNote")
+  Else If InStr(Title, "OneNote")
     Description := "OneNote"
-  Else If InStr(Window.Title, "Visual Studio Code")
+  Else If InStr(Title, "Visual Studio Code")
     Description := "Visual Studio Code"
-  Else If InStr(Window.Title, "Visual Studio")
+  Else If InStr(Title, "Visual Studio")
     Description := "Visual Studio"
-  Else If InStr(Window.Title, "Google Chrome")
-    Description := "Chrome (" . SubStr(Window.Title, 1, 20) . ")"
+  Else If InStr(Title, "Google Chrome")
+    Description := "Chrome (" . SubStr(Title, 1, 20) . ")"
+  Else If IsEmptyString(Title)
+    Description := Window.Process . ": " . Window.Class
   Else
-    Description := Window.Title
+    Description := StrReplace(Title, "`r`n", " ")
 
   ; ; Add the window's size
   ; If (Window.State = "MINIMIZED")
@@ -321,10 +364,11 @@ WindowToString(Window)
 WindowHasBorder(Window)
 {
   WindowsWithoutBorders := ["Microsoft Visual Studio", "Sourcetree", "Slack"]
+  CaseSensitive := true
 
   For Index, Title in WindowsWithoutBorders
   {
-    If (InStr(Window.Title, Title))
+    If (InStr(Window.Title, Title, CaseSensitive))
     {
       Log(Title . " does not have window borders")
       Return False
@@ -385,11 +429,27 @@ IsSystemWindow(Window)
 
 
 
+; Determines whether the given window is a Windows File Explorer window
+IsExplorerWindow(Window)
+{
+  Return Window.Process = "Explorer.EXE" and Window.Class = "CabinetWClass"
+}
+
+
+
+; Determines whether the given window is a Spotify window
+IsSpotifyWindow(Window)
+{
+  Return Window.Process = "Spotify.exe" and StrLen(Window.Title) > 0
+}
+
+
+
 ; HACK: This is a hacky workaround for a weird bug that only happens when docking a window
 ; to the bottom left of my vertical monitor. For some reason, WinMove adds 468 pixels to the
 ; window height. I've tried everything I can think of, and can't figure out why. So the only
 ; workaround I've found is reduce the height by 468 pixels to compensate.
-ApplyVerticalMonitorHack(Window, Title, Left, Top, Width, Height)
+ApplyVerticalMonitorHack(Window, ID, Left, Top, Width, Height)
 {
   IsVerticalMonitor := Window.Monitor.Bounds.Height > Window.Monitor.Bounds.Width
   IsDockingToBottom := (Top + Height) >= Window.Monitor.WorkArea.Height
@@ -400,7 +460,7 @@ ApplyVerticalMonitorHack(Window, Title, Left, Top, Width, Height)
     Log("HACK - The window is being docked to the bottom of a vertical monitor, "
       . "so the height was reduced by 468px to compensate for an AutoHotKey bug")
 
-    WinMove, %Title%, , Left, Top, Width, (Height - 468)
+    WinMove, %ID%, , Left, Top, Width, (Height - 468)
     Return True
   }
   Else
