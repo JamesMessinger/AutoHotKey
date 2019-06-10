@@ -25,7 +25,7 @@ F24 & Enter::SmartLayoutActiveWindow(0)
 
 
 ; Returns the smart layouts for all windows
-GetSmartLayout(LayoutID, Monitors, Windows)
+GetSmartLayouts(LayoutID, Monitors, Windows)
 {
   SmartLayouts := []
 
@@ -92,6 +92,7 @@ GetSmartLayout(LayoutID, Monitors, Windows)
       SmartLayouts.Push({ Windows: Browser, Monitor: HorizontalMonitor, Top: 0, Left: .17, Width: .66, Height: 1 })
 
     SmartLayouts.Push({ Windows: Slack, Monitor: LaptopScreen, State: "MAXIMIZED" })
+    SmartLayouts.Push({ Windows: Sublime, Monitor: HorizontalMonitor, Width: .4, Height: .6 })
     SmartLayouts.Push({ Windows: [OneNote, Spotify, SourceTree], Monitor: VerticalMonitor, Top: .6, Left: 0, Width: 1, Height: .4 })
 
     If (Explorer and Explorer.Length() = 2)
@@ -100,7 +101,7 @@ GetSmartLayout(LayoutID, Monitors, Windows)
       SmartLayouts.Push({ Windows: Explorer[2], Monitor: LaptopScreen, Top: 1, Left: .5, Width: .5, Height: 1 })
    }
     Else
-      SmartLayouts.Push({ Windows: Explorer, Monitor: HorizontalMonitor, Top: .1, Left: .1, Width: .3, Height: .3, Cascade: True })
+      SmartLayouts.Push({ Windows: Explorer, Monitor: HorizontalMonitor, Top: .2, Left: .05, Width: .4, Height: .5, Cascade: True })
 
     If (Cmd and Cmd.Length() = 1)
       SmartLayouts.Push({ Windows: Cmd, Monitor: HorizontalMonitor, Top: 0, Left: .8, Width: .2, Height: 1 })
@@ -137,10 +138,16 @@ GetSmartLayout(LayoutID, Monitors, Windows)
       SmartLayouts.Push({ Windows: [Gmail, Gcal], Monitor: HorizontalMonitor, Top: 0, Left: 0, Width: .5, Height: 1 })
       SmartLayouts.Push({ Windows: WebPage, Monitor: HorizontalMonitor, Top: 0, Left: .5, Width: .5, Height: 1 })
     }
+    Else If (WebPage and WebPage.Length() = 2)
+    {
+      SmartLayouts.Push({ Windows: WebPage[1], Monitor: HorizontalMonitor, Top: 0, Left: 0, Width: .5, Height: 1 })
+      SmartLayouts.Push({ Windows: WebPage[2], Monitor: HorizontalMonitor, Top: 0, Left: .5, Width: .5, Height: 1 })
+    }
     Else
       SmartLayouts.Push({ Windows: Browser, Monitor: HorizontalMonitor, Width: .66, Height: 1 })
 
     SmartLayouts.Push({ Windows: [Slack, Spotify, OneNote, SourceTree, Postman], Monitor: LaptopScreen, State: "MAXIMIZED" })
+    SmartLayouts.Push({ Windows: Sublime, Monitor: HorizontalMonitor, Width: .4, Height: .6 })
 
     If (Explorer and Explorer.Length() = 2)
     {
@@ -148,7 +155,7 @@ GetSmartLayout(LayoutID, Monitors, Windows)
       SmartLayouts.Push({ Windows: Explorer[2], Monitor: LaptopScreen, Top: 0, Left: .5, Width: .5, Height: 1 })
     }
     Else
-      SmartLayouts.Push({ Windows: Explorer, Monitor: HorizontalMonitor, Top: .1, Left: .1, Width: .3, Height: .3, Cascade: True })
+      SmartLayouts.Push({ Windows: Explorer, Monitor: HorizontalMonitor, Top: .2, Left: .05, Width: .4, Height: .5, Cascade: True })
 
     If (Cmd and Cmd.Length() = 1)
       SmartLayouts.Push({ Windows: Cmd, Monitor: HorizontalMonitor, Top: 0, Left: .8, Width: .2, Height: 1 })
@@ -194,9 +201,9 @@ GetSmartLayout(LayoutID, Monitors, Windows)
       SmartLayouts.Push({ Windows: [Spotify, OneNote, SourceTree, Postman], Monitor: HorizontalMonitor, Top: .5, Left: .34, Width: .66, Height: .5 })
       SmartLayouts.Push({ Windows: Chat, Monitor: HorizontalMonitor, Top: .8, Left: .9, Width: .1, Height: .2 })
       SmartLayouts.Push({ Windows: StickyNote, Monitor: HorizontalMonitor, Top: .8, Left: .9, Width: .1, Height: .2 })
-      SmartLayouts.Push({ Windows: Sublime, Monitor: HorizontalMonitor, Width: .5, Height: .7 })
+      SmartLayouts.Push({ Windows: Sublime, Monitor: HorizontalMonitor, Width: .4, Height: .6 })
       SmartLayouts.Push({ Windows: Twitter, Monitor: HorizontalMonitor, Top: 0, Left: .85, Width: .15, Height: 1 })
-      SmartLayouts.Push({ Windows: Explorer, Monitor: HorizontalMonitor, Top: .4, Left: .6, Width: .4, Height: .3, Cascade: True })
+      SmartLayouts.Push({ Windows: Explorer, Monitor: HorizontalMonitor, Top: .2, Left: .05, Width: .4, Height: .5, Cascade: True })
 
       If (Cmd and Cmd.Length() = 1)
         SmartLayouts.Push({ Windows: Cmd, Monitor: HorizontalMonitor, Top: 0, Left: .8, Width: .2, Height: 1 })

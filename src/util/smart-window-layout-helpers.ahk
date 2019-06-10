@@ -14,7 +14,7 @@ SmartLayoutAllWindows(LayoutID)
 
     Monitors := GetMonitors()
     Windows := GetWindows(Monitors)
-    SmartLayouts := GetSmartLayout(LayoutID, Monitors, Windows)
+    SmartLayouts := GetSmartLayouts(LayoutID, Monitors, Windows)
     Log("Applying " . SmartLayouts.Length() . " smart layouts")
 
     For Index, SmartLayout In SmartLayouts
@@ -42,7 +42,7 @@ SmartLayoutActiveWindow(LayoutID)
     ActiveWindow := GetActiveWindow(Monitors)
 
     ; Get the smart layout for all windows
-    SmartLayouts := GetSmartLayout(LayoutID, Monitors, Windows)
+    SmartLayouts := GetSmartLayouts(LayoutID, Monitors, Windows)
 
     ; Find the active window in the smart layouts
     For LayoutIndex, SmartLayout In SmartLayouts
@@ -58,7 +58,8 @@ SmartLayoutActiveWindow(LayoutID)
       }
     }
 
-    Info("There is no smart layout for this window")
+    Log("There is no smart layout for the active window.  Applying default layout.")
+    SnapActiveWindow({ Width: 1800, Height: 1400 })
   }
   Catch Exception
   {
