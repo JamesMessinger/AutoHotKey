@@ -180,14 +180,3 @@ IsArrayOfApps(Array)
 {
   Return IsArray(Array) and (Array[1] = "" or IsArray(Array[1]))
 }
-
-
-
-; Logs the list of windows that were found
-LogWindows(Name, Windows)
-{
-  If (Windows)
-    Log(" -  - " . Name . ": " . Windows.Length())
-  Else
-    Log(" -  - " . Name . ": 0")
-}

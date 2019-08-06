@@ -115,35 +115,66 @@ GetActiveWindow(Monitors)
 
 
 
-; Returns all windows that match the specified title(s)
-FindWindowsByTitles(Windows, Titles, Exclude := "")
+; Returns all windows in the list that match the specified criteria and DO NOT match the exclusion criteria.
+; NOTE: If no matches are found, then the return value is null - NOT an empty array.
+FindWindows(Windows, InclusionCriteria, ExclusionCriteria := "")
 {
   Matches := []
-  CaseSensitive := true
 
   For Index, Window in Windows
   {
-    For Index2, Title in Exclude
+    If (WindowMatches(Window, InclusionCriteria) and !WindowMatches(Window, ExclusionCriteria))
     {
-      If (InStr(Window.Title, Title, CaseSensitive) or InStr(Window.Text, Title, CaseSensitive))
-      {
-        Continue 2
-      }
-    }
-
-    For Index2, Title in Titles
-    {
-      If (Title = "Explorer" and IsExplorerWindow(Window))
-        Matches.Push(Window)
-      Else If (Title = "Spotify" and IsSpotifyWindow(Window))
-        Matches.Push(Window)
-      Else If (InStr(Window.Title, Title, CaseSensitive) or InStr(Window.Text, Title, CaseSensitive))
-        Matches.Push(Window)
+      Matches.Push(Window)
     }
   }
 
+  Log("Found " . Matches.Length() . " windows that match " . WindowCriteriaToString(InclusionCriteria))
+
   If (Matches.Length() > 0)
     Return Matches
+}
+
+
+
+; Determines whether the given window matches the specified criteria
+WindowMatches(Window, Criteria)
+{
+  If (Criteria == "")
+    Return False
+
+  If (Criteria.HasTitle and StrLen(Window.Title) == 0)
+    Return False
+
+  ; Title can be a string or array of strings
+  If (Criteria.Title and not WindowTitleMatches(Window, Criteria.Title))
+    Return False
+
+  If (Criteria.Class and Window.Class != Criteria.Class)
+    Return False
+
+  If (Criteria.Process and Window.Process != Criteria.Process)
+    Return False
+
+  Return True
+}
+
+
+
+; Determines whether the given window matches one of the specified titles
+WindowTitleMatches(Window, Titles, CaseSensitive := True)
+{
+  ; Normalize Titles as an array
+  If (!IsArray(Titles))
+    Titles := [Titles]
+
+  For Index, Title in Titles
+  {
+    If (InStr(Window.Title, Title, CaseSensitive) or InStr(Window.Text, Title, CaseSensitive))
+      Return True
+  }
+
+  Return False
 }
 
 
@@ -204,7 +235,7 @@ SetWindowLayout(Window, Layout, Monitors)
 
   ; If the window is currently minimized or maximized, then restore it first,
   ; so we can resize and position it
-  If (Window.State != State)
+  If (Window.State != "NORMAL")
   {
     WinRestore %ID%
   }
@@ -318,21 +349,13 @@ WindowToString(Window)
   If IsEmptyString(Title)
     Title := Window.Text
 
-  If IsExplorerWindow(Window)
+  If WindowMatches(Window, { Process: "Explorer.EXE", Class: "CabinetWClass" })
     Description := "Windows Explorer"
-  Else If IsSpotifyWindow(Window)
+  Else If WindowMatches(Window, { Process: "Spotify.exe", HasTitle: True })
     Description := "Spotify"
-  Else If InStr(Title, "Sublime Text")
-    Description := "Sublime Text"
-  Else If InStr(Title, "Slack - ")
+  Else If WindowMatches(Window, { Process: "Slack.exe" })
     Description := "Slack"
-  Else If InStr(Title, "OneNote")
-    Description := "OneNote"
-  Else If InStr(Title, "Visual Studio Code")
-    Description := "Visual Studio Code"
-  Else If InStr(Title, "Visual Studio")
-    Description := "Visual Studio"
-  Else If InStr(Title, "Google Chrome")
+  Else If WindowMatches(Window, { Title: "Google Chrome" })
     Description := "Chrome (" . SubStr(Title, 1, 20) . ")"
   Else If IsEmptyString(Title)
     Description := Window.Process . ": " . Window.Class
@@ -355,6 +378,26 @@ WindowToString(Window)
   ; }
 
   Return Description
+}
+
+
+
+; Returns a user-friendly description of the specified window criteria
+WindowCriteriaToString(Criteria)
+{
+  If (Criteria.Title)
+  {
+    If (IsArray(Criteria.Title))
+      Return Criteria.Title[1]
+    Else
+      Return Criteria.Title
+  }
+
+  If (Criteria.Process)
+    Return Criteria.Process
+
+  If (Criteria.Class)
+    Return Criteria.Class
 }
 
 
@@ -425,22 +468,6 @@ IsSystemWindow(Window)
 
   ; Doesn't seem to be a system window
   Return False
-}
-
-
-
-; Determines whether the given window is a Windows File Explorer window
-IsExplorerWindow(Window)
-{
-  Return Window.Process = "Explorer.EXE" and Window.Class = "CabinetWClass"
-}
-
-
-
-; Determines whether the given window is a Spotify window
-IsSpotifyWindow(Window)
-{
-  Return Window.Process = "Spotify.exe" and StrLen(Window.Title) > 0
 }
 
 
