@@ -5,7 +5,6 @@
 
 ; Win + Enter applies smart layout 0 to the active window
 #Enter::SmartLayoutActiveWindow(0)
-F24 & Enter::SmartLayoutActiveWindow(0)
 
 ; Ctrl + Win + Enter applies smart layout 1 to the active window
 ^#Enter::SmartLayoutActiveWindow(1)
@@ -15,8 +14,8 @@ F24 & Enter::SmartLayoutActiveWindow(0)
 
 ; Win + Shift + Enter applies smart layout 0 to all windows
 #+Enter::SmartLayoutAllWindows(0)
-#if GetKeyState("Shift", "P")
-  AppsKey & Enter::SmartLayoutAllWindows(0)
+#if GetKeyState("AppsKey", "P")
+  +Enter::SmartLayoutAllWindows(0)
 #if
 
 ; Ctrl + Win + Shift + Enter applies smart layout 1 to all windows
