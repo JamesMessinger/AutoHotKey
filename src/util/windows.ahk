@@ -484,14 +484,19 @@ ApplyVerticalMonitorHack(Window, ID, Left, Top, Width, Height)
 
   If (IsVerticalMonitor and IsDockingToBottom and IsDockingToLeft)
   {
-    Log("HACK - The window is being docked to the bottom of a vertical monitor, "
-      . "so the height was reduced by 468px to compensate for an AutoHotKey bug")
+    ; The hack isn't necessary for some windows
+    IsException := WindowMatches(Window, { Title: "Sourcetree" })
+                or WindowMatches(Window, { Process: "Slack.exe" })
 
-    WinMove, %ID%, , Left, Top, Width, (Height - 468)
-    Return True
+    If (!IsException)
+    {
+      Log("HACK - The window is being docked to the bottom of a vertical monitor, "
+        . "so the height was reduced by 468px to compensate for an AutoHotKey bug")
+
+      WinMove, %ID%, , Left, Top, Width, (Height - 468)
+      Return True
+    }
   }
-  Else
-  {
-    Return False
-  }
+
+  Return False
 }
