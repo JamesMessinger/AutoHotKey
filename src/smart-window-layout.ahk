@@ -62,7 +62,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
     ;-------------------------------------------------------------------------
     Log("`r`nApplying three-screen smart layout")
 
-    SmartLayouts.Push({ Windows: StickyNote, Monitor: VerticalMonitor, Top: .6, Left: .7, Width: .27, Height: .14 })
+    SmartLayouts.Push({ Windows: StickyNote, Monitor: VerticalMonitor, Top: .5, Left: .7, Width: .27, Height: .14 })
     SmartLayouts.Push({ Windows: Calculator, Monitor: LaptopScreen, Top: .5, Left: .8, Width: .2, Height: .5 })
 
     If (VSCode)
