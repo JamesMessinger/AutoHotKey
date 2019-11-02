@@ -80,8 +80,14 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
       SmartLayouts.Push({ Windows: Browser, Monitor: HorizontalMonitor, Top: 0, Left: .17, Width: .66, Height: 1 })
 
     SmartLayouts.Push({ Windows: Slack, Monitor: LaptopScreen, State: "MAXIMIZED" })
-    SmartLayouts.Push({ Windows: Sublime, Monitor: HorizontalMonitor, Width: .4, Height: .6 })
     SmartLayouts.Push({ Windows: [OneNote, Spotify, SourceTree], Monitor: VerticalMonitor, Top: .6, Left: 0, Width: 1, Height: .4 })
+
+    If (LayoutID = 1)
+      SmartLayouts.Push({ Windows: Sublime, Monitor: LaptopScreen, Width: .5, Height: .7 })
+    Else If (LayoutID = 2)
+      SmartLayouts.Push({ Windows: Sublime, Monitor: VerticalMonitor, Width: .4, Height: .6 })
+    Else
+      SmartLayouts.Push({ Windows: Sublime, Monitor: HorizontalMonitor, Width: .4, Height: .6 })
 
     If (Explorer and Explorer.Length() = 2)
     {
@@ -138,7 +144,11 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
       SmartLayouts.Push({ Windows: Browser, Monitor: HorizontalMonitor, Width: .66, Height: 1 })
 
     SmartLayouts.Push({ Windows: [Slack, Spotify, OneNote, SourceTree, Postman], Monitor: LaptopScreen, State: "MAXIMIZED" })
-    SmartLayouts.Push({ Windows: Sublime, Monitor: HorizontalMonitor, Width: .4, Height: .6 })
+
+    If (LayoutID = 0)
+      SmartLayouts.Push({ Windows: Sublime, Monitor: HorizontalMonitor, Width: .4, Height: .6 })
+    Else
+      SmartLayouts.Push({ Windows: Sublime, Monitor: LaptopScreen, Width: .5, Height: .7 })
 
     If (Explorer and Explorer.Length() = 2)
     {
