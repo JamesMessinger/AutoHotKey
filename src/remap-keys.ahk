@@ -4,6 +4,7 @@ ScrollLock::Volume_Up
 
 ; Map the Puase/Break key to the Play/Pause toggle
 Pause::Media_Play_Pause
+
 ; Map the AppsKey to the Ctrl key, since there's not a right Ctrl key on the Surface Book
 AppsKey::RControl
 
