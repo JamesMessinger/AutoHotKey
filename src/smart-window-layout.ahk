@@ -76,8 +76,14 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
       SmartLayouts.Push({ Windows: Gcal, Monitor: VerticalMonitor, Top: .6, Left: 0, Width: 1, Height: .4 })
       SmartLayouts.Push({ Windows: WebPage, Monitor: HorizontalMonitor, Top: 0, Left: .17, Width: .66, Height: 1 })
     }
-    Else
-      SmartLayouts.Push({ Windows: Browser, Monitor: HorizontalMonitor, Top: 0, Left: .17, Width: .66, Height: 1 })
+    Else {
+      If (LayoutID = 1)
+        SmartLayouts.Push({ Windows: Browser, Monitor: VerticalMonitor, Top: 0, Left: 0, Width: 1, Height: .6 })
+      Else If (LayoutID = 2)
+        SmartLayouts.Push({ Windows: Browser, Monitor: LaptopScreen, State: "MAXIMIZED" })
+      Else
+        SmartLayouts.Push({ Windows: Browser, Monitor: HorizontalMonitor, Top: 0, Left: .17, Width: .66, Height: 1 })
+    }
 
     SmartLayouts.Push({ Windows: Slack, Monitor: LaptopScreen, State: "MAXIMIZED" })
     SmartLayouts.Push({ Windows: [OneNote, Spotify, SourceTree], Monitor: VerticalMonitor, Top: .6, Left: 0, Width: 1, Height: .4 })
