@@ -244,15 +244,11 @@ SetWindowLayout(Window, Layout, Monitors)
   ; to account for any change in DPI between the two monitors
   If (Monitor.ID != Window.Monitor.ID)
   {
-    Log("The window has been moved to a new monitor. Adjusting for DPI differences")
+    Log("Moving the window to a new monitor. Will need to adjust for DPI differences")
     WinMove, %ID%, , Left, Top, Width, Height
   }
 
-  If (!ApplyVerticalMonitorHack(Window, ID, Left, Top, Width, Height))
-  {
-    ; Position and resize the window
-    WinMove, %ID%, , Left, Top, Width, Height
-  }
+  PositionWindow(Window, ID, Left, Top, Width, Height)
 
   ; Set the window's minimized/maximized state, if necessary
   If (State = "MAXIMIZED")
@@ -270,6 +266,41 @@ SetWindowLayout(Window, Layout, Monitors)
   Window.Right := Left + Width
   Window.Bottom := Top + Height
   Window.State := State
+}
+
+
+; This function is a wrapper arund `WinMove` that accounts for some weird buggy behavior that I've
+; encountered.  For some reason, WinMove adds hundreds of extra pixels to the window height, but
+; ONLY on a vertical monitor, and ONLY when the app touches the bottom edge of the monitor. Even
+; more odd, the behavior only happens for SOME apps, and it sometimes only happens if they're on
+; the RIGHT side of the screen. I've tried everything I can think of, and can't figure out why.
+; So the only workaround I've found is reduce the height to compensate.
+PositionWindow(Window, ID, Left, Top, Width, Height)
+{
+  Monitor := Window.Monitor
+  IsVerticalMonitor := Monitor.Bounds.Height > Monitor.Bounds.Width
+  IsTouchingBottom := IsNear(Top + Height, Monitor.WorkArea.Top + Monitor.WorkArea.Height)
+  IsTouchingRight := IsNear(Left + Width, Monitor.WorkArea.Left + Monitor.WorkArea.Width)
+  HeightAdjustment := 0
+
+  If (IsVerticalMonitor and IsTouchingBottom and IsTouchingRight)
+  {
+    ; These apps aren't affected by the bug. So their height is correct
+    HasCorrectSize := WindowMatches(Window, { Title: "Sourcetree" })
+                  or WindowMatches(Window, { Process: "Slack.exe" })
+                  or WindowMatches(Window, { Process: "Spotify.exe", HasTitle: True })
+
+    If (!HasCorrectSize)
+      HeightAdjustment := -612
+  }
+
+  If (HeightAdjustment > 0)
+  {
+    Log("The window is being docked to the bottom of a vertical monitor, "
+      . "so the height was adjusted by " . HeightAdjustment . "px to compensate for an AutoHotKey bug")
+  }
+
+  WinMove, %ID%, , Left, Top, Width, (Height + HeightAdjustment)
 }
 
 
@@ -467,36 +498,5 @@ IsSystemWindow(Window)
   }
 
   ; Doesn't seem to be a system window
-  Return False
-}
-
-
-
-; HACK: This is a hacky workaround for a weird bug that only happens when docking a window
-; to the bottom left of my vertical monitor. For some reason, WinMove adds 468 pixels to the
-; window height. I've tried everything I can think of, and can't figure out why. So the only
-; workaround I've found is reduce the height by 468 pixels to compensate.
-ApplyVerticalMonitorHack(Window, ID, Left, Top, Width, Height)
-{
-  IsVerticalMonitor := Window.Monitor.Bounds.Height > Window.Monitor.Bounds.Width
-  IsDockingToBottom := (Top + Height) >= Window.Monitor.WorkArea.Height
-  IsDockingToLeft := Left <= (Window.Monitor.WorkArea.Left + 25)
-
-  If (IsVerticalMonitor and IsDockingToBottom and IsDockingToLeft)
-  {
-    ; The hack isn't necessary for some windows
-    IsException := WindowMatches(Window, { Title: "Sourcetree" })
-                or WindowMatches(Window, { Process: "Slack.exe" })
-
-    If (!IsException)
-    {
-      Log("HACK - The window is being docked to the bottom of a vertical monitor, "
-        . "so the height was reduced by 468px to compensate for an AutoHotKey bug")
-
-      WinMove, %ID%, , Left, Top, Width, (Height - 468)
-      Return True
-    }
-  }
-
   Return False
 }
