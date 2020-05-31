@@ -64,6 +64,8 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
 
     SmartLayouts.Push({ Windows: StickyNote, Monitor: VerticalMonitor, Top: .5, Left: .7, Width: .27, Height: .14 })
     SmartLayouts.Push({ Windows: Calculator, Monitor: LaptopScreen, Top: .5, Left: .8, Width: .2, Height: .5 })
+    SmartLayouts.Push({ Windows: Twitter, Monitor: LaptopScreen, Top: 0, Left: .75, Width: .25, Height: 1 })
+    SmartLayouts.Push({ Windows: Chat, Monitor: LaptopScreen, Top: .15, Left: .25, Width: .5, Height: .7 })
 
     If (VSCode)
     {
@@ -124,6 +126,8 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
 
     SmartLayouts.Push({ Windows: StickyNote, Monitor: LaptopScreen, Top: .7, Left: .8, Width: .2, Height: .3 })
     SmartLayouts.Push({ Windows: Calculator, Monitor: LaptopScreen, Top: .5, Left: .8, Width: .2, Height: .5 })
+    SmartLayouts.Push({ Windows: Twitter, Monitor: LaptopScreen, Top: 0, Left: .75, Width: .25, Height: 1 })
+    SmartLayouts.Push({ Windows: Chat, Monitor: LaptopScreen, Top: .15, Left: .25, Width: .5, Height: .7 })
 
     If (VSCode)
     {
@@ -186,7 +190,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
     If (LaptopScreen)
     {
       SmartLayouts.Push({ Windows: [Browser, Slack, Spotify, OneNote, VSCode, Git, Postman], Monitor: LaptopScreen, State: "MAXIMIZED" })
-      SmartLayouts.Push({ Windows: Chat, Monitor: LaptopScreen, Top: .6, Left: .75, Width: .25, Height: .4 })
+      SmartLayouts.Push({ Windows: Chat, Monitor: LaptopScreen, Top: .15, Left: .25, Width: .5, Height: .7 })
       SmartLayouts.Push({ Windows: StickyNote, Monitor: LaptopScreen, Top: .7, Left: .8, Width: .2, Height: .3 })
       SmartLayouts.Push({ Windows: Calculator, Monitor: LaptopScreen, Top: .5, Left: .8, Width: .2, Height: .5 })
       SmartLayouts.Push({ Windows: Sublime, Monitor: LaptopScreen, Width: .5, Height: .7 })
@@ -207,7 +211,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
       SmartLayouts.Push({ Windows: Browser, Monitor: HorizontalMonitor, Width: .66, Height: 1 })
       SmartLayouts.Push({ Windows: Slack, Monitor: HorizontalMonitor, Top: .5, Left: 0, Width: .66, Height: .5 })
       SmartLayouts.Push({ Windows: [Spotify, OneNote, Git, Postman], Monitor: HorizontalMonitor, Top: .5, Left: .34, Width: .66, Height: .5 })
-      SmartLayouts.Push({ Windows: Chat, Monitor: HorizontalMonitor, Top: .8, Left: .9, Width: .1, Height: .2 })
+      SmartLayouts.Push({ Windows: Chat, Monitor: HorizontalMonitor, Top: .5, Left: .6, Width: .35, Height: .45 })
       SmartLayouts.Push({ Windows: StickyNote, Monitor: HorizontalMonitor, Top: .8, Left: .9, Width: .1, Height: .2 })
       SmartLayouts.Push({ Windows: Calculator, Monitor: HorizontalMonitor, Top: .8, Left: .9, Width: .1, Height: .2 })
       SmartLayouts.Push({ Windows: Sublime, Monitor: HorizontalMonitor, Width: .4, Height: .6 })
