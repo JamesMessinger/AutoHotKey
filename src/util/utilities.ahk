@@ -86,7 +86,7 @@ Info(Message)
 
 
 ; Writes the given text to a log file, if logging is enabled
-Log(Text)
+Log(Text, PrependBlankLine := True)
 {
   Try
   {
@@ -95,6 +95,10 @@ Log(Text)
     If (LoggingEnabled)
     {
       Text := Text . "`r`n"
+
+      If (PrependBlankLine)
+        Text := "`r`n" . Text
+
       FileCreateDir, logs
       FileAppend, %Text%, logs\log.txt
     }

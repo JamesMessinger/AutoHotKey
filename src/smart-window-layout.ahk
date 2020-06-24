@@ -35,6 +35,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
   HorizontalMonitor := FindHorizontalMonitor(Monitors, LaptopScreen)
   VerticalMonitor := FindVerticalMonitor(Monitors)
 
+  Log("", False) ; blank line
   Explorer := FindWindows(Windows, { Process: "Explorer.EXE", Class: "CabinetWClass" })
   Browser := FindWindows(Windows, { Title: ["Google Chrome", "Firefox"]})
   Gmail := FindWindows(Windows, { Title: ["Gmail", " Mail"]})
@@ -60,7 +61,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
     ;
     ;  Laptop screen plus two external monitors (one horizontal, one vertical)
     ;-------------------------------------------------------------------------
-    Log("`r`nApplying three-screen smart layout #" . LayoutID)
+    Log("Applying three-screen smart layout #" . LayoutID)
 
     SmartLayouts.Push({ Windows: StickyNote, Monitor: VerticalMonitor, Top: .5, Left: .7, Width: .27, Height: .14 })
     SmartLayouts.Push({ Windows: Calculator, Monitor: LaptopScreen, Top: .5, Left: .8, Width: .2, Height: .5 })
@@ -122,7 +123,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
     ;
     ;          Laptop screen plus one external monitor (horizontal)
     ;-------------------------------------------------------------------------
-    Log("`r`nApplying two-screen smart layout #" . LayoutID)
+    Log("Applying two-screen smart layout #" . LayoutID)
 
     SmartLayouts.Push({ Windows: StickyNote, Monitor: LaptopScreen, Top: .7, Left: .8, Width: .2, Height: .3 })
     SmartLayouts.Push({ Windows: Calculator, Monitor: LaptopScreen, Top: .5, Left: .8, Width: .2, Height: .5 })
@@ -185,7 +186,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
     ;
     ;           Just the laptop screen, or just external monitor(s)
     ;-------------------------------------------------------------------------
-    Log("`r`nApplying single-screen smart layout #" . LayoutID)
+    Log("Applying single-screen smart layout #" . LayoutID)
 
     If (LaptopScreen)
     {

@@ -75,7 +75,7 @@ ApplySmartLayout(SmartLayout, Monitors)
   Layout := SmartLayout.Layout
   IsPercentages := Layout.Top <= 1
 
-  Log("`r`nApplying Smart Layout:"
+  Log("Applying Smart Layout:"
     . "`r`n  Monitor: " . Layout.Monitor.ID . " (" . Layout.Monitor.Bounds.Width . " x " . Layout.Monitor.Bounds.Height . ")"
     . "`r`n  Top: " . Layout.Top
     . "`r`n  Left: " . Layout.Left
@@ -91,12 +91,11 @@ ApplySmartLayout(SmartLayout, Monitors)
       Layout.Top := Layout.Top + (IsPercentages ? .1 : 25)
       Layout.Left := Layout.Left + (IsPercentages ? .1 : 25)
 
-      Log("`r`nLayout after cascade:"
+      Log("Layout after cascade:"
         . "`r`n  Top: " . Layout.Top
         . "`r`n  Left: " . Layout.Left
         . "`r`n  Width: " . Layout.Width
-        . "`r`n  Height: " . Layout.Height
-        . "`r`n")
+        . "`r`n  Height: " . Layout.Height)
     }
 
     SetWindowLayout(Window, Layout, Monitors)
@@ -152,18 +151,18 @@ NormalizeSmartLayouts(FlatLayouts)
     }
 
     SmartLayout.Apps := Apps.Length()
-    Log("  Smart Layout #" . LayoutIndex . " has " . SmartLayout.Apps . " apps")
+    Log("  Smart Layout #" . LayoutIndex . " has " . SmartLayout.Apps . " apps", False)
 
     For AppIndex, Windows In Apps
     {
       If (!Windows)
         Windows := []
 
-      Log("    App #" . AppIndex . " has " . Windows.Length() . " windows")
+      Log("    App #" . AppIndex . " has " . Windows.Length() . " windows", False)
 
       For WindowIndex, Window in Windows
       {
-        Log("      Window #" . WindowIndex . " is " . WindowToString(Window))
+        Log("      Window #" . WindowIndex . " is " . WindowToString(Window), False)
         SmartLayout.Windows.Push(Window)
       }
     }

@@ -97,7 +97,7 @@ SnapActiveWindow(Layout)
     ; Start a new log file for this operation
     NewLog()
 
-    Log("`r`nSnapping active window to "
+    Log("Snapping active window to "
     . Layout.Width . " x " . Layout.Height . " at "
     . Layout.Left . ", " . Layout.Top)
 

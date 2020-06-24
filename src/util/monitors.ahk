@@ -71,24 +71,24 @@ GetMonitor(ID)
 
   Monitor.Type := IsLaptopMonitor(Monitor) ? "LAPTOP" : GetOrientation(Monitor)
 
-  Log("========== Monitor #" . Monitor.ID . " ==========`r`n"
-    . "Name: " . Monitor.Name . "`r`n"
-    . "Primary: " . (Monitor.IsPrimary ? "yes" : "no") . "`r`n"
-    . "Type: " . Monitor.Type . "`r`n"
-    . "Bounds:`r`n"
-    . "  Left: " . Monitor.Bounds.Left . "`r`n"
-    . "  Right: " . Monitor.Bounds.Right . "`r`n"
-    . "  Top: " . Monitor.Bounds.Top . "`r`n"
-    . "  Bottom: " . Monitor.Bounds.Bottom . "`r`n"
-    . "  Width: " . Monitor.Bounds.Width . "`r`n"
-    . "  Height: " . Monitor.Bounds.Height . "`r`n"
-    . "WorkArea:`r`n"
-    . "  Left: " . Monitor.WorkArea.Left . "`r`n"
-    . "  Right: " . Monitor.WorkArea.Right . "`r`n"
-    . "  Top: " . Monitor.WorkArea.Top . "`r`n"
-    . "  Bottom: " . Monitor.WorkArea.Bottom . "`r`n"
-    . "  Width: " . Monitor.WorkArea.Width . "`r`n"
-    . "  Height: " . Monitor.WorkArea.Height . "`r`n")
+  Log("========== Monitor #" . Monitor.ID . " =========="
+    . "`r`nName: " . Monitor.Name
+    . "`r`nPrimary: " . (Monitor.IsPrimary ? "yes" : "no")
+    . "`r`nType: " . Monitor.Type
+    . "`r`nBounds:"
+    . "`r`n  Left: " . Monitor.Bounds.Left
+    . "`r`n  Right: " . Monitor.Bounds.Right
+    . "`r`n  Top: " . Monitor.Bounds.Top
+    . "`r`n  Bottom: " . Monitor.Bounds.Bottom
+    . "`r`n  Width: " . Monitor.Bounds.Width
+    . "`r`n  Height: " . Monitor.Bounds.Height
+    . "`r`nWorkArea:"
+    . "`r`n  Left: " . Monitor.WorkArea.Left
+    . "`r`n  Right: " . Monitor.WorkArea.Right
+    . "`r`n  Top: " . Monitor.WorkArea.Top
+    . "`r`n  Bottom: " . Monitor.WorkArea.Bottom
+    . "`r`n  Width: " . Monitor.WorkArea.Width
+    . "`r`n  Height: " . Monitor.WorkArea.Height)
 
   Return Monitor
 }

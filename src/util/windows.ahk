@@ -44,7 +44,7 @@ GetWindow(ID, Monitors)
   ; Transparency is 0 (invisible) to 255 (opaque), or blank if not set (i.e. visible)
   Transparency := (Transparency = "" ? 255 : 0)
 
-  Log("`r`nDetermining the current monitor for window #" . ID . " (" . Title . ")")
+  Log("Determining the current monitor for window #" . ID . " (" . Title . ")")
   Monitor := GetMonitorByRect(Left, Top, Width, Height, Monitors)
 
   Window := {}
@@ -83,22 +83,22 @@ GetWindow(ID, Monitors)
   Else
     Window.State := "NORMAL"
 
-  Log("========== Window #" . Window.ID . " ==========`r`n"
-    . "Title: " . Window.Title . "`r`n"
-    . "Text: " . Window.Text . "`r`n"
-    . "Class: " . Window.Class . "`r`n"
-    . "Process: " . Window.Process . "`r`n"
-    . "State: " . Window.State . "`r`n"
-    . "Transparency: " . Window.Transparency . "`r`n"
-    . "System Window: " . (IsSystemWindow(Window) ? "yes" : "no") . "`r`n"
-    . "Monitor: " . Window.Monitor.ID . "`r`n"
-    . "Position:`r`n"
-    . "  Left: " . Window.Left . "`r`n"
-    . "  Right: " . Window.Right . "`r`n"
-    . "  Top: " . Window.Top . "`r`n"
-    . "  Bottom: " . Window.Bottom . "`r`n"
-    . "  Width: " . Window.Width . "`r`n"
-    . "  Height: " . Window.Height . "`r`n")
+  Log("========== Window #" . Window.ID . " =========="
+    . "`r`nTitle: " . Window.Title
+    . "`r`nText: " . Window.Text
+    . "`r`nClass: " . Window.Class
+    . "`r`nProcess: " . Window.Process
+    . "`r`nState: " . Window.State
+    . "`r`nTransparency: " . Window.Transparency
+    . "`r`nSystem Window: " . (IsSystemWindow(Window) ? "yes" : "no")
+    . "`r`nMonitor: " . Window.Monitor.ID
+    . "`r`nPosition:"
+    . "`r`n  Left: " . Window.Left
+    . "`r`n  Right: " . Window.Right
+    . "`r`n  Top: " . Window.Top
+    . "`r`n  Bottom: " . Window.Bottom
+    . "`r`n  Width: " . Window.Width
+    . "`r`n  Height: " . Window.Height)
 
   Return Window
 }
@@ -129,7 +129,7 @@ FindWindows(Windows, InclusionCriteria, ExclusionCriteria := "")
     }
   }
 
-  Log("Found " . Matches.Length() . " windows that match " . WindowCriteriaToString(InclusionCriteria))
+  Log("Found " . Matches.Length() . " windows that match " . WindowCriteriaToString(InclusionCriteria), False)
 
   If (Matches.Length() > 0)
     Return Matches
@@ -182,7 +182,7 @@ WindowTitleMatches(Window, Titles, CaseSensitive := True)
 ; Sets a window's size and position to the specified layout
 SetWindowLayout(Window, Layout, Monitors)
 {
-  Log("`r`nPositioning window #" . Window.ID . ": " . WindowToString(Window))
+  Log("Positioning window #" . Window.ID . ": " . WindowToString(Window))
 
   ; Calculate the absolute size & position to move the window to
   NewLocation := GetAbsoluteLayout(Window, Layout)
@@ -196,15 +196,13 @@ SetWindowLayout(Window, Layout, Monitors)
      . "`r`n  Height: " . Window.Height
      . "`r`n  State: " . Window.State
      . "`r`n"
-     . "`r`nNew Monitor: " . NewLocation.Monitor.ID
      . "`r`nNew Dimensions:"
      . "`r`n  Monitor: " . NewLocation.Monitor.ID
      . "`r`n  Left: " . NewLocation.Left
      . "`r`n  Top: " . NewLocation.Top
      . "`r`n  Width: " . NewLocation.Width
      . "`r`n  Height: " . NewLocation.Height
-     . "`r`n  State: " . NewLocation.State
-    . "`r`n")
+     . "`r`n  State: " . NewLocation.State)
 
   ID := "ahk_id " . Window.ID
   Monitor := NewLocation.Monitor
@@ -221,12 +219,11 @@ SetWindowLayout(Window, Layout, Monitors)
     Left := Floor(Monitor.WorkArea.Width * .25)
     Top := Floor(Monitor.WorkArea.Height * .125)
 
-    Log("`r`nThe window will be maximized, but when un-maximized, it will be:"
+    Log("The window will be maximized, but when un-maximized, it will be:"
       . "`r`n  Width: " . Width
       . "`r`n  Height: " . Height
       . "`r`n  Left: " . Left
-      . "`r`n  Top: " . Top
-      . "`r`n")
+      . "`r`n  Top: " . Top)
   }
 
   Left := Left + Monitor.Bounds.Left
@@ -337,11 +334,11 @@ GetAbsoluteLayout(Window, Layout)
     Left := (Monitor.WorkArea.Left - Monitor.Bounds.Left) + Floor((Layout.Monitor.WorkArea.Width - Width) / 2)
   }
 
-  Log("Absolute Layout:" . "`r`n"
-    . "  Left: " . Left . "`r`n"
-    . "  Top: " . Top . "`r`n"
-    . "  Width: " . Width . "`r`n"
-    . "  Height: " . Height . "`r`n")
+  Log("Absolute Layout:"
+    . "`r`n  Left: " . Left
+    . "`r`n  Top: " . Top
+    . "`r`n  Width: " . Width
+    . "`r`n  Height: " . Height)
 
   ; Window borders (Windows 10)
   If (WindowHasBorder(Window))
@@ -352,10 +349,10 @@ GetAbsoluteLayout(Window, Layout)
     NewWidth := Width + (BorderWidth * 1.5)
     NewHeight := Height + BorderHeight
 
-    Log("`r`nAdjusting for window borders:`r`n"
-      . "Left: " . Left . " - " . BorderWidth . " = " . NewLeft . "`r`n"
-      . "Width: " . Width . " + " . (BorderWidth * 1.5) . " = " . NewWidth . "`r`n"
-      . "Height: " . Height . " + " . BorderHeight . " = " . NewHeight . "`r`n")
+    Log("Adjusting for window borders:"
+      . "`r`n  Left: " . Left . " - " . BorderWidth . " = " . NewLeft
+      . "`r`n  Width: " . Width . " + " . (BorderWidth * 1.5) . " = " . NewWidth
+      . "`r`n  Height: " . Height . " + " . BorderHeight . " = " . NewHeight)
 
     Left := NewLeft
     Width := NewWidth
