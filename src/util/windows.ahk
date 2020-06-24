@@ -243,6 +243,7 @@ SetWindowLayout(Window, Layout, Monitors)
   {
     Log("Moving the window to a new monitor. Will need to adjust for DPI differences")
     WinMove, %ID%, , Left, Top, Width, Height
+    Window.Monitor := Monitor
   }
 
   PositionWindow(Window, ID, Left, Top, Width, Height)
@@ -255,14 +256,15 @@ SetWindowLayout(Window, Layout, Monitors)
   Else
     State := "NORMAL"
 
-  Window.Monitor := Monitor
-  Window.Width := Width
-  Window.Height := Height
-  Window.Left := Left
-  Window.Top := Top
-  Window.Right := Left + Width
-  Window.Bottom := Top + Height
   Window.State := State
+
+  Log("Final Window Position: "
+     . "`r`n  Monitor: " . Window.Monitor.ID
+     . "`r`n  Left: " . Window.Left
+     . "`r`n  Top: " . Window.Top
+     . "`r`n  Width: " . Window.Width
+     . "`r`n  Height: " . Window.Height
+     . "`r`n  State: " . Window.State)
 }
 
 
@@ -282,22 +284,38 @@ PositionWindow(Window, ID, Left, Top, Width, Height)
 
   If (IsVerticalMonitor and IsTouchingBottom and IsTouchingRight)
   {
-    ; These apps aren't affected by the bug. So their height is correct
-    HasCorrectSize := WindowMatches(Window, { Title: "Sourcetree" })
-                  or WindowMatches(Window, { Process: "Slack.exe" })
+    ; These apps aren't affected by the bug. So no correction is necessary
+    NoCorrectionNecessary := WindowMatches(Window, { Title: ["Google Chrome", "Sourcetree"] })
                   or WindowMatches(Window, { Process: "Spotify.exe", HasTitle: True })
+                  or WindowMatches(Window, { Process: "Slack.exe" })
 
-    If (!HasCorrectSize)
-      HeightAdjustment := -612
+    If (!NoCorrectionNecessary)
+    {
+      ; These apps need their height reduced by 472 pixels
+      Subtract472 := WindowMatches(Window, { Title: "GitKraken" })
+
+      If (Subtract472)
+        HeightAdjustment := -472
+      Else
+        ; All other apps need their height reduced by 612 pixels
+        HeightAdjustment := -612
+    }
   }
 
-  If (HeightAdjustment > 0)
+  If (HeightAdjustment != 0)
   {
     Log("The window is being docked to the bottom of a vertical monitor, "
       . "so the height was adjusted by " . HeightAdjustment . "px to compensate for an AutoHotKey bug")
   }
 
-  WinMove, %ID%, , Left, Top, Width, (Height + HeightAdjustment)
+  Window.Left := Left
+  Window.Top := Top
+  Window.Width := Width
+  Window.Height := (Height + HeightAdjustment)
+  Window.Right := Window.Left + Window.Width
+  Window.Bottom := Window.Top + Window.Height
+
+  WinMove, %ID%, , Window.Left, Window.Top, Window.Width, Window.Height
 }
 
 
