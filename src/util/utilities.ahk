@@ -133,5 +133,5 @@ ErrorHandler(Exception)
 {
   Message := Exception.Message
   Log("========== ERROR ==========`r`n" . Message)
-  MsgBox, 16, AutoHotKey, %Message%
+  ; MsgBox, 16, AutoHotKey, %Message%
 }
