@@ -45,7 +45,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
   Slack := FindWindows(Windows, { Process: "Slack.exe" })
   Twitter := FindWindows(Windows, { Title: "Twitter" })
   Chat := FindWindows(Windows, { Title: ["Messenger", "Messages"]})
-  VideoChat := FindWindows(Windows, { Title: ["Zoom"]})
+  VideoChat := FindWindows(Windows, { Title: ["Zoom "]})
   Spotify := FindWindows(Windows, { Process: "Spotify.exe", HasTitle: True })
   OneNote := FindWindows(Windows, { Title: "OneNote" })
   StickyNote := FindWindows(Windows, { Title: "Sticky Notes" })
@@ -68,7 +68,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
     SmartLayouts.Push({ Windows: Calculator, Monitor: LaptopScreen, Top: .5, Left: .8, Width: .2, Height: .5 })
     SmartLayouts.Push({ Windows: Twitter, Monitor: LaptopScreen, Top: 0, Left: .75, Width: .25, Height: 1 })
     SmartLayouts.Push({ Windows: Chat, Monitor: LaptopScreen, Top: .15, Left: .25, Width: .5, Height: .7 })
-    SmartLayouts.Push({ Windows: VideoChat, Monitor: LaptopScreen, Top: 0, Left: 0, Width: 1, Height: .25 })
+    SmartLayouts.Push({ Windows: [OneNote, Spotify, Git], Monitor: VerticalMonitor, Top: .6, Left: 0, Width: 1, Height: .4 })
 
     If (VSCode)
     {
@@ -81,7 +81,8 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
       SmartLayouts.Push({ Windows: Gcal, Monitor: VerticalMonitor, Top: .6, Left: 0, Width: 1, Height: .4 })
       SmartLayouts.Push({ Windows: WebPage, Monitor: HorizontalMonitor, Top: 0, Left: .17, Width: .66, Height: 1 })
     }
-    Else {
+    Else
+    {
       If (LayoutID = 1)
         SmartLayouts.Push({ Windows: Browser, Monitor: VerticalMonitor, Top: 0, Left: 0, Width: 1, Height: .6 })
       Else If (LayoutID = 2)
@@ -90,8 +91,16 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
         SmartLayouts.Push({ Windows: Browser, Monitor: HorizontalMonitor, Top: 0, Left: .17, Width: .66, Height: 1 })
     }
 
-    SmartLayouts.Push({ Windows: Slack, Monitor: LaptopScreen, State: "MAXIMIZED" })
-    SmartLayouts.Push({ Windows: [OneNote, Spotify, Git], Monitor: VerticalMonitor, Top: .6, Left: 0, Width: 1, Height: .4 })
+    If (Slack and VideoChat)
+    {
+      SmartLayouts.Push({ Windows: VideoChat, Monitor: LaptopScreen, Top: 0, Left: 0, Width: 1, Height: .25 })
+      SmartLayouts.Push({ Windows: Slack, Monitor: LaptopScreen, Top: .25, Left: 0, Width: 1, Height: .75 })
+    }
+    Else
+    {
+      SmartLayouts.Push({ Windows: VideoChat, Monitor: LaptopScreen, Top: 0, Left: 0, Width: 1, Height: .25 })
+      SmartLayouts.Push({ Windows: Slack, Monitor: LaptopScreen, State: "MAXIMIZED" })
+    }
 
     If (LayoutID = 1)
       SmartLayouts.Push({ Windows: Sublime, Monitor: LaptopScreen, Width: .5, Height: .7 })
@@ -104,7 +113,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
     {
       SmartLayouts.Push({ Windows: Explorer[1], Monitor: LaptopScreen, Top: 0, Left: 0, Width: .5, Height: 1 })
       SmartLayouts.Push({ Windows: Explorer[2], Monitor: LaptopScreen, Top: 0, Left: .5, Width: .5, Height: 1 })
-   }
+    }
     Else
       SmartLayouts.Push({ Windows: Explorer, Monitor: HorizontalMonitor, Top: .2, Left: .05, Width: .4, Height: .5, Cascade: True })
 
@@ -131,7 +140,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
     SmartLayouts.Push({ Windows: Calculator, Monitor: LaptopScreen, Top: .5, Left: .8, Width: .2, Height: .5 })
     SmartLayouts.Push({ Windows: Twitter, Monitor: LaptopScreen, Top: 0, Left: .75, Width: .25, Height: 1 })
     SmartLayouts.Push({ Windows: Chat, Monitor: LaptopScreen, Top: .15, Left: .25, Width: .5, Height: .7 })
-    SmartLayouts.Push({ Windows: VideoChat, Monitor: LaptopScreen, Top: 0, Left: 0, Width: 1, Height: .25 })
+    SmartLayouts.Push({ Windows: [Spotify, OneNote, Git, Postman], Monitor: LaptopScreen, State: "MAXIMIZED" })
 
     If (VSCode)
     {
@@ -157,7 +166,16 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
     Else
       SmartLayouts.Push({ Windows: Browser, Monitor: HorizontalMonitor, Width: .66, Height: 1 })
 
-    SmartLayouts.Push({ Windows: [Slack, Spotify, OneNote, Git, Postman], Monitor: LaptopScreen, State: "MAXIMIZED" })
+    If (Slack and VideoChat)
+    {
+      SmartLayouts.Push({ Windows: VideoChat, Monitor: LaptopScreen, Top: 0, Left: 0, Width: 1, Height: .25 })
+      SmartLayouts.Push({ Windows: Slack, Monitor: LaptopScreen, Top: .25, Left: 0, Width: 1, Height: .75 })
+    }
+    Else
+    {
+      SmartLayouts.Push({ Windows: VideoChat, Monitor: LaptopScreen, Top: 0, Left: 0, Width: 1, Height: .25 })
+      SmartLayouts.Push({ Windows: Slack, Monitor: LaptopScreen, State: "MAXIMIZED" })
+    }
 
     If (LayoutID = 0)
       SmartLayouts.Push({ Windows: Sublime, Monitor: HorizontalMonitor, Width: .4, Height: .6 })
@@ -193,7 +211,7 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
 
     If (LaptopScreen)
     {
-      SmartLayouts.Push({ Windows: [Browser, Slack, Spotify, OneNote, VSCode, Git, Postman], Monitor: LaptopScreen, State: "MAXIMIZED" })
+      SmartLayouts.Push({ Windows: [Browser, Spotify, OneNote, VSCode, Git, Postman], Monitor: LaptopScreen, State: "MAXIMIZED" })
       SmartLayouts.Push({ Windows: Chat, Monitor: LaptopScreen, Top: .15, Left: .25, Width: .5, Height: .7 })
       SmartLayouts.Push({ Windows: VideoChat, Monitor: LaptopScreen, Top: 0, Left: 0, Width: 1, Height: .25 })
       SmartLayouts.Push({ Windows: StickyNote, Monitor: LaptopScreen, Top: .7, Left: .8, Width: .2, Height: .3 })
@@ -201,6 +219,17 @@ GetSmartLayouts(LayoutID, Monitors, Windows)
       SmartLayouts.Push({ Windows: Sublime, Monitor: LaptopScreen, Width: .5, Height: .7 })
       SmartLayouts.Push({ Windows: Twitter, Monitor: LaptopScreen, Top: 0, Left: .75, Width: .25, Height: 1 })
       SmartLayouts.Push({ Windows: Cmd, Monitor: LaptopScreen, Top: .1, Left: .1, Width: .5, Height: .5, Cascade: True })
+
+      If (Slack and VideoChat)
+      {
+        SmartLayouts.Push({ Windows: VideoChat, Monitor: LaptopScreen, Top: 0, Left: 0, Width: 1, Height: .25 })
+        SmartLayouts.Push({ Windows: Slack, Monitor: LaptopScreen, Top: .25, Left: 0, Width: 1, Height: .75 })
+      }
+      Else
+      {
+        SmartLayouts.Push({ Windows: VideoChat, Monitor: LaptopScreen, Top: 0, Left: 0, Width: 1, Height: .25 })
+        SmartLayouts.Push({ Windows: Slack, Monitor: LaptopScreen, State: "MAXIMIZED" })
+      }
 
       If (Explorer and Explorer.Length() = 2)
       {
