@@ -183,8 +183,10 @@ GetOrientation(Monitor)
 ; Determines whether the given monitor is the built-in laptop screen
 IsLaptopMonitor(Monitor)
 {
-  Return (Monitor.Bounds.Width = 2400 and Monitor.Bounds.Height = 1350) ; 200% scaling
-      or (Monitor.Bounds.Width = 2743 and Monitor.Bounds.Height = 1543) ; 175% scaling
+  If (Monitor.Name = "\\.\DISPLAY1" and GetOrientation(Monitor) = "HORIZONTAL")
+    Return True
+  Else
+    Return False
 }
 
 
