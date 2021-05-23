@@ -284,22 +284,17 @@ PositionWindow(Window, ID, Left, Top, Width, Height)
 
   If (IsVerticalMonitor and IsTouchingBottom and IsTouchingRight)
   {
-    ; These apps aren't affected by the bug. So no correction is necessary
-    NoCorrectionNecessary := WindowMatches(Window, { Title: ["Google Chrome", "Sourcetree"] })
-                  or WindowMatches(Window, { Process: "Spotify.exe", HasTitle: True })
-                  or WindowMatches(Window, { Process: "Slack.exe" })
+    ; These apps need their height reduced by 612 pixels
+    Subtract612 := WindowMatches(Window, { Title: ["XXXXX", "YYYYY", "ZZZZZ"] })
 
-    If (!NoCorrectionNecessary)
-    {
-      ; These apps need their height reduced by 472 pixels
-      Subtract472 := WindowMatches(Window, { Title: "GitKraken" })
+    ; These apps need their height reduced by 472 pixels
+    Subtract472 := WindowMatches(Window, { Process: "Explorer.EXE", Class: "CabinetWClass" })
+                Or WindowMatches(Window, { Title: ["GitKraken", "XXXXX", "YYYYY"] })
 
-      If (Subtract472)
-        HeightAdjustment := -472
-      Else
-        ; All other apps need their height reduced by 612 pixels
-        HeightAdjustment := -612
-    }
+    If (Subtract612)
+      HeightAdjustment := -612
+    Else If (Subtract472)
+      HeightAdjustment := -472
   }
 
   If (HeightAdjustment != 0)
